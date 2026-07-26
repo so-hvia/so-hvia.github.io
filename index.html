@@ -10,7 +10,7 @@
 <link rel="icon" href="star_8395212.png" type="image/png" sizes="32x32">
 
 <style>
-  /* ---- 5-token palette: ink, muted, blue, violet, violet-tint (badge) ---- */
+  /* ---- 5-token palette: ink, muted, violet, violet-pale, badge tint ---- */
   :root {
     --bg: #fafafc;
     --bg-card: #ffffff;
@@ -18,11 +18,11 @@
 
     --ink: #141414;      /* primary text — not pure black */
     --muted: #62636f;    /* secondary text */
-    --blue: #3d63f5;     /* blended into the cursor glow only, never shown pure */
-    --violet: #9350e0;   /* accent 2 */
+    --violet: #9350e0;   /* accent */
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
     --violet-light: color-mix(in srgb, var(--violet) 32%, white);
+    --violet-pale: color-mix(in srgb, var(--violet) 55%, white);  /* glow only */
     --badge-bg: color-mix(in srgb, var(--violet) 12%, white);
     --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
     --shadow: 0 1px 2px rgba(20,20,20,0.04), 0 8px 24px rgba(20,20,20,0.06);
@@ -40,8 +40,8 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — bigger, but blue is now blended
-     into an indigo core instead of appearing as its own pure-blue ring */
+  /* cursor-following ambient gradient — back to the original size/opacity,
+     pale violet instead of blue */
   #glow {
     position: fixed;
     inset: -10%;
@@ -50,11 +50,11 @@
     filter: blur(90px);
     background:
       radial-gradient(
-        46% 46% at var(--x, 50%) var(--y, 30%),
-        color-mix(in srgb, var(--violet) 55%, var(--blue) 45%) 0%,
-        color-mix(in srgb, var(--violet) 30%, transparent) 32%,
-        color-mix(in srgb, var(--violet) 16%, transparent) 58%,
-        transparent 85%
+        42% 42% at var(--x, 50%) var(--y, 30%),
+        color-mix(in srgb, var(--violet-pale) 34%, transparent) 0%,
+        color-mix(in srgb, var(--violet-pale) 22%, transparent) 25%,
+        color-mix(in srgb, var(--violet) 20%, transparent) 50%,
+        transparent 82%
       );
   }
 
@@ -113,19 +113,19 @@
 
   /* hover: color + lift — plus a same-color ring (via box-shadow) and a
      hint of stroke on the letters, neither of which changes box size */
-  .links a:hover {CV Чебан Софія (4).pdf
+  .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet-dark);
     color: var(--violet-dark);
   }
 
-  .links a:not(.cv-link):hover {CV Чебан Софія (4).pdf
+  .links a:not(.cv-link):hover {
     box-shadow: 0 0 0 1px var(--violet-dark), var(--shadow);
     -webkit-text-stroke: 0.4px currentColor;
   }
 
   /* CV — reversed colors, same height as its neighbors, placed in the middle */
-  .links a.cv-link {CV Чебан Софія (4).pdf
+  .links a.cv-link {
     order: 0;
     width: 148px;
     padding: 12px 20px;
@@ -135,10 +135,12 @@
     border-color: var(--violet);
   }
 
-  .links a.cv-link:hover {CV Чебан Софія (4).pdf
+  /* no border on hover — just a darker fill and slightly bolder text */
+  .links a.cv-link:hover {
     background: var(--violet-dark);
-    border-color: var(--violet-dark);
+    border-color: transparent;
     color: #ffffff;
+    font-weight: 800;
   }
 
   /* sections stacked, each full width */
@@ -287,7 +289,6 @@
     white-space: nowrap;
   }
 
-  /* footer now matches the subtitle's color */
   footer {
     text-align: center;
     color: var(--subtitle);
@@ -310,9 +311,9 @@
     <h1>Софія Чебан</h1>
     <h2 class="role">перекладачка, літературна редакторка</h2>
     <div class="links">
-      <a href="mailto:sofiacheban.lit@gmail.com">email</a>
-      <a class="cv-link" href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
-      <a href="https://t.me/so_hvia" target="_blank">telegram</a>
+      <a href="mailto:sofiacheban.lit@gmail.com">Email</a>
+      <a class="cv-link" href="CV Чебан Софія (4).pdf" target="_blank">Переглянути CV</a>
+      <a href="https://t.me/so_hvia" target="_blank">Telegram</a>
     </div>
   </header>
 
