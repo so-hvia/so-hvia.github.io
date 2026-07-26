@@ -16,13 +16,14 @@
     --bg-card: #ffffff;
     --line: #e6e6ee;
 
-    --ink: #141414;      /* primary text — not pure black */
+    --ink: #141414;      /* body text — not pure black */
+    --heading: #342E37;  /* headings only (h1, section titles) */
     --muted: #62636f;    /* secondary text */
     --violet: #9350e0;   /* accent */
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
     --violet-light: color-mix(in srgb, var(--violet) 32%, white);
-    --violet-pale: color-mix(in srgb, var(--violet) 55%, white);  /* glow only */
+    --violet-pale: color-mix(in srgb, var(--violet) 68%, white);  /* glow only — a touch richer than before */
     --badge-bg: color-mix(in srgb, var(--violet) 12%, white);
     --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
     --shadow: 0 1px 2px rgba(20,20,20,0.04), 0 8px 24px rgba(20,20,20,0.06);
@@ -40,8 +41,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — back to the original size/opacity,
-     pale violet instead of blue */
+  /* cursor-following ambient gradient */
   #glow {
     position: fixed;
     inset: -10%;
@@ -74,7 +74,7 @@
     font-size: clamp(2.2rem, 5vw, 3rem);
     letter-spacing: -0.01em;
     margin: 0 0 10px;
-    color: var(--ink);
+    color: var(--heading);
   }
 
   h2.role {
@@ -124,10 +124,12 @@
     -webkit-text-stroke: 0.4px currentColor;
   }
 
-  /* CV — reversed colors, same height as its neighbors, placed in the middle */
+  /* CV — reversed colors, grows in width (not height) to fit its longer label */
   .links a.cv-link {
     order: 0;
-    width: 148px;
+    width: auto;
+    min-width: 148px;
+    white-space: nowrap;
     padding: 12px 20px;
     font-weight: 700;
     color: #ffffff;
@@ -151,7 +153,7 @@
     font-weight: 800;
     font-size: 1.55rem;
     margin: 0 0 24px;
-    color: var(--ink);
+    color: var(--heading);
   }
 
   /* wider cards, two per row — width grows instead of height */
