@@ -6,7 +6,7 @@
 <title>Чебан Софія</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -33,30 +33,22 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient */
+  /* cursor-following ambient gradient — softened with blur + graduated stops */
   #glow {
     position: fixed;
-    inset: 0;
+    inset: -10%;
     z-index: 0;
     pointer-events: none;
-    background: radial-gradient(
-      600px circle at var(--x, 50%) var(--y, 30%),
-      color-mix(in srgb, var(--blue) 22%, transparent),
-      color-mix(in srgb, var(--violet) 14%, transparent) 40%,
-      transparent 70%
-    );
-    transition: background-position 0.05s linear;
-  }
-
-  #glow::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      900px circle at var(--x, 50%) var(--y, 30%),
-      color-mix(in srgb, var(--cyan) 10%, transparent),
-      transparent 70%
-    );
+    filter: blur(90px);
+    background:
+      radial-gradient(
+        45% 45% at var(--x, 50%) var(--y, 30%),
+        color-mix(in srgb, var(--blue) 26%, transparent) 0%,
+        color-mix(in srgb, var(--blue) 16%, transparent) 25%,
+        color-mix(in srgb, var(--violet) 12%, transparent) 45%,
+        color-mix(in srgb, var(--cyan) 6%, transparent) 65%,
+        transparent 85%
+      );
   }
 
   main {
@@ -67,7 +59,7 @@
     padding: 72px 24px 100px;
   }
 
-  header { text-align: center; margin-bottom: 44px; }
+  header { text-align: center; margin-bottom: 56px; }
 
   h1 {
     font-family: 'Manrope', sans-serif;
@@ -102,6 +94,8 @@
     color: var(--ink);
     font-weight: 700;
     font-size: 0.92rem;
+    width: 108px;
+    text-align: center;
     padding: 9px 16px;
     border-radius: 100px;
     border: 1px solid var(--line);
@@ -116,12 +110,7 @@
     color: var(--violet);
   }
 
-  hr {
-    border: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--line) 20%, var(--line) 80%, transparent);
-    margin: 48px 0;
-  }
+  section + section { margin-top: 56px; }
 
   h2.section-title {
     font-family: 'Manrope', sans-serif;
@@ -149,6 +138,7 @@
   }
 
   .book-list li {
+    position: relative;
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -162,36 +152,47 @@
     transform: translateY(-2px);
   }
 
+  .publisher-badge {
+    position: absolute;
+    top: 22px;
+    right: 24px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--violet);
+    background: color-mix(in srgb, var(--violet) 10%, transparent);
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
   .book-title {
     font-weight: 700;
     font-size: 1.02rem;
-    margin: 0 0 4px;
+    margin: 0 0 10px;
+    padding-right: 110px;
   }
-
-  .book-title a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1.5px solid color-mix(in srgb, var(--blue) 45%, transparent);
-  }
-
-  .book-title a:hover { color: var(--blue); }
 
   .book-uk {
     color: var(--muted);
     font-size: 0.95rem;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
   }
 
+  .book-uk a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  }
+
+  .book-uk a:hover { color: var(--blue); }
+
   .meta {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: var(--muted);
     margin-bottom: 16px;
   }
 
-  .meta span b {
+  .meta b {
     color: var(--ink);
     font-weight: 700;
   }
@@ -244,12 +245,11 @@
     text-align: center;
     color: var(--muted);
     font-size: 0.85rem;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .progress-fill.pulse::after { animation: none; }
-    #glow { transition: none; }
   }
 </style>
 </head>
@@ -269,19 +269,15 @@
     </div>
   </header>
 
-  <hr>
-
   <section>
     <h2 class="section-title">Переклади</h2>
     <ul class="book-list">
 
       <li>
-        <p class="book-title"><a href="#" target="_blank">Original Title</a>, Ім'я Автора/ки</p>
-        <p class="book-uk">Назва українською, ім'я автора/ки</p>
-        <div class="meta">
-          <span><b>Жанри:</b> фентезі, романтика</span>
-          <span><b>Видавництво:</b> Назва</span>
-        </div>
+        <span class="publisher-badge">Видавництво</span>
+        <p class="book-title">Назва українською, ім'я автора/ки</p>
+        <p class="book-uk"><a href="#" target="_blank">Original Title</a>, Ім'я Автора/ки</p>
+        <div class="meta"><b>Жанри:</b> фентезі, романтика</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill" style="width: 70%;"></div></div>
           <span class="progress-label">у редактора</span>
@@ -289,12 +285,10 @@
       </li>
 
       <li>
-        <p class="book-title"><a href="#" target="_blank">Original Title 2</a>, Ім'я Автора/ки</p>
-        <p class="book-uk">Назва українською, ім'я автора/ки</p>
-        <div class="meta">
-          <span><b>Жанри:</b> проза</span>
-          <span><b>Видавництво:</b> Назва</span>
-        </div>
+        <span class="publisher-badge">Видавництво</span>
+        <p class="book-title">Назва українською, ім'я автора/ки</p>
+        <p class="book-uk"><a href="#" target="_blank">Original Title 2</a>, Ім'я Автора/ки</p>
+        <div class="meta"><b>Жанри:</b> проза</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill pulse" style="width: 35%;"></div></div>
           <span class="progress-label">у процесі</span>
@@ -304,19 +298,15 @@
     </ul>
   </section>
 
-  <hr>
-
   <section>
     <h2 class="section-title">Літературне редагування</h2>
     <ul class="book-list">
 
       <li>
-        <p class="book-title"><a href="#" target="_blank">Original Title 3</a>, Ім'я Автора/ки</p>
-        <p class="book-uk">Назва українською, ім'я автора/ки</p>
-        <div class="meta">
-          <span><b>Жанри:</b> нонфікшн</span>
-          <span><b>Видавництво:</b> Назва</span>
-        </div>
+        <span class="publisher-badge">Видавництво</span>
+        <p class="book-title">Назва українською, ім'я автора/ки</p>
+        <p class="book-uk"><a href="#" target="_blank">Original Title 3</a>, Ім'я Автора/ки</p>
+        <div class="meta"><b>Жанри:</b> нонфікшн</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
           <span class="progress-label">у верстці</span>
@@ -324,12 +314,10 @@
       </li>
 
       <li>
-        <p class="book-title"><a href="#" target="_blank">Original Title 4</a>, Ім'я Автора/ки</p>
-        <p class="book-uk">Назва українською, ім'я автора/ки</p>
-        <div class="meta">
-          <span><b>Жанри:</b> драма</span>
-          <span><b>Видавництво:</b> Назва</span>
-        </div>
+        <span class="publisher-badge">Видавництво</span>
+        <p class="book-title">Назва українською, ім'я автора/ки</p>
+        <p class="book-uk"><a href="#" target="_blank">Original Title 4</a>, Ім'я Автора/ки</p>
+        <div class="meta"><b>Жанри:</b> драма</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
           <span class="progress-label">у коректорки</span>
@@ -339,22 +327,30 @@
     </ul>
   </section>
 
-  <hr>
-
-  <footer>Актуально на 26 липня 2026</footer>
+  <footer>Актуально на 26.07.2026</footer>
 
 </main>
 
 <script>
   const glow = document.getElementById('glow');
+  let targetX = 50, targetY = 30;
+  let curX = 50, curY = 30;
+
   window.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth) * 100 + '%';
-    const y = (e.clientY / window.innerHeight) * 100 + '%';
-    glow.style.setProperty('--x', x);
-    glow.style.setProperty('--y', y);
+    targetX = (e.clientX / window.innerWidth) * 100;
+    targetY = (e.clientY / window.innerHeight) * 100;
   });
+
+  function animate() {
+    // lerp toward target for fluid, non-jumpy motion
+    curX += (targetX - curX) * 0.08;
+    curY += (targetY - curY) * 0.08;
+    glow.style.setProperty('--x', curX + '%');
+    glow.style.setProperty('--y', curY + '%');
+    requestAnimationFrame(animate);
+  }
+  animate();
 </script>
 
 </body>
-</html>100%)</small>
-
+</html>
