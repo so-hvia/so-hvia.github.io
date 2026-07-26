@@ -1,76 +1,360 @@
-# Софія Чебан
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чебан Софія</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-### перекладачка, літературна редакторка
+<style>
+  :root {
+    --bg: #fafafc;
+    --bg-card: #ffffff;
+    --ink: #16161f;
+    --muted: #62636f;
+    --line: #e6e6ee;
+    --blue: #3d63f5;
+    --violet: #9350e0;
+    --cyan: #23c4d9;
+    --shadow: 0 1px 2px rgba(22,22,31,0.04), 0 8px 24px rgba(22,22,31,0.06);
+  }
 
-[CV](посилання-на-CV) • [email](mailto:sofiacheban.lit@gmail.com) • [telegram](https://t.me/so_hvia)
+  * { box-sizing: border-box; }
 
----
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    overflow-x: hidden;
+  }
 
-## Переклади
+  /* cursor-following ambient gradient */
+  #glow {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      600px circle at var(--x, 50%) var(--y, 30%),
+      color-mix(in srgb, var(--blue) 22%, transparent),
+      color-mix(in srgb, var(--violet) 14%, transparent) 40%,
+      transparent 70%
+    );
+    transition: background-position 0.05s linear;
+  }
 
-**1. [Назва оригіналу](посилання-goodreads), Ім'я Автора/ки**
+  #glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      900px circle at var(--x, 50%) var(--y, 30%),
+      color-mix(in srgb, var(--cyan) 10%, transparent),
+      transparent 70%
+    );
+  }
 
-Назва українською, ім'я автора/ки
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
 
-- Жанри: 
-- Видавництво: 
+  header { text-align: center; margin-bottom: 44px; }
 
-**Прогрес:** 
+  h1 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    background: linear-gradient(100deg, var(--ink) 40%, var(--violet) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
-  <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
-</div>
-<small> у верстці (100%)</small>
+  h2.role {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin: 0 0 28px;
+    letter-spacing: 0.01em;
+  }
 
-<br>
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 
-**2. [Назва оригіналу 2](посилання-goodreads), Ім'я Автора/ки**
+  .links a {
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 9px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
 
-Назва українською, ім'я автора/ки
+  .links a:hover {
+    transform: translateY(-2px);
+    border-color: var(--violet);
+    color: var(--violet);
+  }
 
-- Жанри: 
-- Видавництво: 
+  hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--line) 20%, var(--line) 80%, transparent);
+    margin: 48px 0;
+  }
 
-**Прогрес:**
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.55rem;
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
-  <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
-</div>
-<small> у верстці (100%)</small>
+  h2.section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
 
----
+  .book-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+  }
 
-## Літературне редагування
+  .book-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
 
-**1. [Назва оригіналу](посилання-goodreads), Ім'я Автора/ки**
+  .book-list li:hover {
+    border-color: color-mix(in srgb, var(--violet) 40%, var(--line));
+    transform: translateY(-2px);
+  }
 
-Назва українською, ім'я автора/ки
+  .book-title {
+    font-weight: 700;
+    font-size: 1.02rem;
+    margin: 0 0 4px;
+  }
 
-- Жанри: 
-- Видавництво: 
+  .book-title a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  }
 
-**Прогрес:** 
+  .book-title a:hover { color: var(--blue); }
 
-<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
-  <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
-</div>
-<small> у верстці (100%)</small>
+  .book-uk {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 12px;
+  }
 
-**2. [Назва оригіналу](посилання-goodreads), Ім'я Автора/ки**
+  .meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
 
-Назва українською, ім'я автора/ки
+  .meta span b {
+    color: var(--ink);
+    font-weight: 700;
+  }
 
-- Жанри: 
-- Видавництво: 
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-**Прогрес:**
+  .progress-track {
+    flex: 1;
+    height: 9px;
+    border-radius: 100px;
+    background: #eef0f7;
+    overflow: hidden;
+    position: relative;
+  }
 
-<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
-  <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
-</div>
-<small> у коректорки (100%)</small>
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--blue), var(--violet));
+    position: relative;
+  }
 
+  .progress-fill.pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 2.2s infinite;
+  }
 
----
-telegram: [@ваш_нік](https://t.me/ваш_нік)  
-email: <ваша@пошта.com>
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .progress-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--violet);
+    white-space: nowrap;
+    min-width: 84px;
+    text-align: right;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-fill.pulse::after { animation: none; }
+    #glow { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="glow"></div>
+
+<main>
+
+  <header>
+    <h1>Софія Чебан</h1>
+    <h2 class="role">перекладачка, літературна редакторка</h2>
+    <div class="links">
+      <a href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
+      <a href="mailto:sofiacheban.lit@gmail.com">email</a>
+      <a href="https://t.me/so_hvia" target="_blank">telegram</a>
+    </div>
+  </header>
+
+  <hr>
+
+  <section>
+    <h2 class="section-title">Переклади</h2>
+    <ul class="book-list">
+
+      <li>
+        <p class="book-title"><a href="#" target="_blank">Original Title</a>, Ім'я Автора/ки</p>
+        <p class="book-uk">Назва українською, ім'я автора/ки</p>
+        <div class="meta">
+          <span><b>Жанри:</b> фентезі, романтика</span>
+          <span><b>Видавництво:</b> Назва</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width: 70%;"></div></div>
+          <span class="progress-label">у редактора</span>
+        </div>
+      </li>
+
+      <li>
+        <p class="book-title"><a href="#" target="_blank">Original Title 2</a>, Ім'я Автора/ки</p>
+        <p class="book-uk">Назва українською, ім'я автора/ки</p>
+        <div class="meta">
+          <span><b>Жанри:</b> проза</span>
+          <span><b>Видавництво:</b> Назва</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill pulse" style="width: 35%;"></div></div>
+          <span class="progress-label">у процесі</span>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2 class="section-title">Літературне редагування</h2>
+    <ul class="book-list">
+
+      <li>
+        <p class="book-title"><a href="#" target="_blank">Original Title 3</a>, Ім'я Автора/ки</p>
+        <p class="book-uk">Назва українською, ім'я автора/ки</p>
+        <div class="meta">
+          <span><b>Жанри:</b> нонфікшн</span>
+          <span><b>Видавництво:</b> Назва</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
+          <span class="progress-label">у верстці</span>
+        </div>
+      </li>
+
+      <li>
+        <p class="book-title"><a href="#" target="_blank">Original Title 4</a>, Ім'я Автора/ки</p>
+        <p class="book-uk">Назва українською, ім'я автора/ки</p>
+        <div class="meta">
+          <span><b>Жанри:</b> драма</span>
+          <span><b>Видавництво:</b> Назва</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
+          <span class="progress-label">у коректорки</span>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <hr>
+
+  <footer>Актуально на 26 липня 2026</footer>
+
+</main>
+
+<script>
+  const glow = document.getElementById('glow');
+  window.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 100 + '%';
+    const y = (e.clientY / window.innerHeight) * 100 + '%';
+    glow.style.setProperty('--x', x);
+    glow.style.setProperty('--y', y);
+  });
+</script>
+
+</body>
+</html>100%)</small>
+
