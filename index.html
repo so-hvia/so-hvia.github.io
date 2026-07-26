@@ -9,15 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+  /* ---- 5-token palette: ink, muted, blue, violet, midnight ---- */
   :root {
     --bg: #fafafc;
     --bg-card: #ffffff;
-    --ink: #16161f;
-    --muted: #62636f;
     --line: #e6e6ee;
-    --blue: #3d63f5;
-    --violet: #9350e0;
-    --cyan: #23c4d9;
+
+    --ink: #16161f;      /* primary text */
+    --muted: #62636f;    /* secondary text */
+    --blue: #3d63f5;     /* accent 1 */
+    --violet: #9350e0;   /* accent 2 */
+    --midnight: #1b2559; /* accent 3 — badges only */
+
+    --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
     --shadow: 0 1px 2px rgba(22,22,31,0.04), 0 8px 24px rgba(22,22,31,0.06);
   }
 
@@ -33,7 +37,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — softened with blur + graduated stops */
+  /* cursor-following ambient gradient — blue + violet only, slightly deeper */
   #glow {
     position: fixed;
     inset: -10%;
@@ -43,18 +47,17 @@
     background:
       radial-gradient(
         45% 45% at var(--x, 50%) var(--y, 30%),
-        color-mix(in srgb, var(--blue) 26%, transparent) 0%,
-        color-mix(in srgb, var(--blue) 16%, transparent) 25%,
-        color-mix(in srgb, var(--violet) 12%, transparent) 45%,
-        color-mix(in srgb, var(--cyan) 6%, transparent) 65%,
-        transparent 85%
+        color-mix(in srgb, var(--blue) 34%, transparent) 0%,
+        color-mix(in srgb, var(--blue) 22%, transparent) 25%,
+        color-mix(in srgb, var(--violet) 20%, transparent) 50%,
+        transparent 82%
       );
   }
 
   main {
     position: relative;
     z-index: 1;
-    max-width: 760px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 72px 24px 100px;
   }
@@ -62,20 +65,33 @@
   header { text-align: center; margin-bottom: 56px; }
 
   h1 {
+    position: relative;
+    display: inline-block;
     font-family: 'Manrope', sans-serif;
-    font-weight: 600;
+    font-weight: 700;
     font-size: clamp(2.2rem, 5vw, 3rem);
     letter-spacing: -0.01em;
     margin: 0 0 10px;
-    background: linear-gradient(100deg, var(--ink) 40%, var(--violet) 90%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--ink);
   }
+
+  h1 .name-glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--violet);
+    opacity: 0;
+    -webkit-mask-image: radial-gradient(80px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 35%, transparent 68%);
+            mask-image: radial-gradient(80px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 35%, transparent 68%);
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  h1:hover .name-glow { opacity: 1; }
 
   h2.role {
     font-family: 'Manrope', sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.05rem;
     color: var(--muted);
     margin: 0 0 28px;
@@ -93,10 +109,10 @@
     text-decoration: none;
     color: var(--ink);
     font-weight: 700;
-    font-size: 0.92rem;
-    width: 108px;
+    font-size: 0.98rem;
+    width: 128px;
     text-align: center;
-    padding: 9px 16px;
+    padding: 12px 18px;
     border-radius: 100px;
     border: 1px solid var(--line);
     background: var(--bg-card);
@@ -106,8 +122,8 @@
 
   .links a:hover {
     transform: translateY(-2px);
-    border-color: var(--violet);
-    color: var(--violet);
+    border-color: var(--violet-dark);
+    color: var(--violet-dark);
   }
 
   section + section { margin-top: 56px; }
@@ -134,7 +150,12 @@
     margin: 0;
     padding: 0;
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 18px;
+  }
+
+  @media (max-width: 640px) {
+    .book-list { grid-template-columns: 1fr; }
   }
 
   .book-list li {
@@ -154,13 +175,13 @@
 
   .publisher-badge {
     position: absolute;
-    top: 22px;
-    right: 24px;
-    font-size: 0.72rem;
+    top: 20px;
+    right: 20px;
+    font-size: 0.78rem;
     font-weight: 700;
-    color: var(--violet);
-    background: color-mix(in srgb, var(--violet) 10%, transparent);
-    padding: 4px 10px;
+    color: var(--midnight);
+    background: color-mix(in srgb, var(--midnight) 12%, transparent);
+    padding: 5px 12px;
     border-radius: 100px;
     white-space: nowrap;
   }
@@ -260,7 +281,10 @@
 <main>
 
   <header>
-    <h1>Софія Чебан</h1>
+    <h1>
+      Софія Чебан
+      <span class="name-glow" aria-hidden="true">Софія Чебан</span>
+    </h1>
     <h2 class="role">перекладачка, літературна редакторка</h2>
     <div class="links">
       <a href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
@@ -332,6 +356,7 @@
 </main>
 
 <script>
+  // ambient cursor glow (page-wide, smoothed)
   const glow = document.getElementById('glow');
   let targetX = 50, targetY = 30;
   let curX = 50, curY = 30;
@@ -341,15 +366,24 @@
     targetY = (e.clientY / window.innerHeight) * 100;
   });
 
-  function animate() {
-    // lerp toward target for fluid, non-jumpy motion
+  function animateGlow() {
     curX += (targetX - curX) * 0.08;
     curY += (targetY - curY) * 0.08;
     glow.style.setProperty('--x', curX + '%');
     glow.style.setProperty('--y', curY + '%');
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateGlow);
   }
-  animate();
+  animateGlow();
+
+  // name spotlight — violet reveal follows cursor within the letters
+  const nameHeading = document.querySelector('h1');
+  nameHeading.addEventListener('mousemove', (e) => {
+    const rect = nameHeading.getBoundingClientRect();
+    const mx = ((e.clientX - rect.left) / rect.width) * 100;
+    const my = ((e.clientY - rect.top) / rect.height) * 100;
+    nameHeading.style.setProperty('--mx', mx + '%');
+    nameHeading.style.setProperty('--my', my + '%');
+  });
 </script>
 
 </body>
