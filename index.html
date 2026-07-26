@@ -7,27 +7,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" href="href="C:\Users\zaval\Downloads\favicon" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
 
 <style>
-  /* ---- 5-token palette: ink, muted, blue, violet, midnight ---- */
+  /* ---- 5-token palette: ink, muted, blue, violet, violet-tint (badge) ---- */
   :root {
     --bg: #fafafc;
     --bg-card: #ffffff;
     --line: #e6e6ee;
 
-    --ink: #212A37;      /* primary text — not pure black */
+    --ink: #141414;      /* primary text — not pure black */
     --muted: #62636f;    /* secondary text */
-    --blue: #3d63f5;     /* accent 1 (still used for links/glow) */
+    --blue: #3d63f5;     /* accent 1 — cursor glow only */
     --violet: #9350e0;   /* accent 2 */
-    --midnight: #1b2559; /* accent 3 — badges only */
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
     --violet-light: color-mix(in srgb, var(--violet) 32%, white);
+    --badge-text: color-mix(in srgb, var(--violet) 88%, white 12%);
+    --badge-bg: color-mix(in srgb, var(--violet) 12%, white);
     --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
-    --shadow: 0 1px 2px rgba(15,15,15,0.04), 0 8px 24px rgba(15,15,15,0.06);
-
-    --heading-font: Manrope, sans-serif;
+    --shadow: 0 1px 2px rgba(20,20,20,0.04), 0 8px 24px rgba(20,20,20,0.06);
   }
 
   * { box-sizing: border-box; }
@@ -42,7 +41,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — 10% larger than before */
+  /* cursor-following ambient gradient */
   #glow {
     position: fixed;
     inset: -10%;
@@ -62,7 +61,7 @@
   main {
     position: relative;
     z-index: 1;
-    max-width: 960px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 72px 24px 100px;
   }
@@ -70,7 +69,7 @@
   header { text-align: center; margin-bottom: 56px; }
 
   h1 {
-    font-family: var(--heading-font);
+    font-family: 'Manrope', sans-serif;
     font-weight: 700;
     font-size: clamp(2.2rem, 5vw, 3rem);
     letter-spacing: -0.01em;
@@ -79,7 +78,7 @@
   }
 
   h2.role {
-    font-family: var(--heading-font);
+    font-family: 'Manrope', sans-serif;
     font-weight: 500;
     font-style: italic;
     font-size: 1.05rem;
@@ -107,44 +106,44 @@
     border: 1px solid var(--line);
     background: var(--bg-card);
     box-shadow: var(--shadow);
-    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease,
-                border-width 0.15s ease, font-weight 0.15s ease;
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
 
+  /* hover: color + lift only — border-width and font-weight stay fixed,
+     so nothing below the header shifts */
   .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet-dark);
-    border-width: 2px;
     color: var(--violet-dark);
-    font-weight: 800;
   }
 
-  /* two sections side by side — wider gap between columns */
-  .sections-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-  }
-
-  @media (max-width: 780px) {
-    .sections-grid { grid-template-columns: 1fr; }
-  }
+  /* sections stacked, each full width */
+  section + section { margin-top: 56px; }
 
   h2.section-title {
-    font-family: var(--heading-font);
+    font-family: 'Manrope', sans-serif;
     font-weight: 800;
     font-size: 1.55rem;
     margin: 0 0 24px;
     color: var(--ink);
   }
 
+  /* three cards per row */
   .book-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 22px;
+  }
+
+  @media (max-width: 900px) {
+    .book-list { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .book-list { grid-template-columns: 1fr; }
   }
 
   .book-list li {
@@ -152,7 +151,7 @@
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 24px 26px;
+    padding: 18px 22px 22px;
     box-shadow: var(--shadow);
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
@@ -164,14 +163,14 @@
 
   .publisher-badge {
     position: absolute;
-    top: 24px;
-    right: 26px;
-    max-width: 140px;
-    font-size: 0.85rem;
+    top: 16px;
+    right: 18px;
+    max-width: 120px;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--midnight);
-    background: color-mix(in srgb, var(--midnight) 8%, white);
-    padding: 6px 14px;
+    color: var(--badge-text);
+    background: var(--badge-bg);
+    padding: 5px 12px;
     border-radius: 100px;
     white-space: normal;
     text-align: center;
@@ -180,14 +179,14 @@
 
   .book-title {
     font-weight: 700;
-    font-size: 1.14rem;
-    margin: 0 0 10px;
-    padding-right: 130px;
+    font-size: 1.1rem;
+    margin: 0 0 8px;
+    padding-right: 96px;
   }
 
   .book-uk {
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     margin: 0 0 16px;
   }
 
@@ -195,12 +194,14 @@
     color: var(--muted);
     text-decoration: none;
     border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 45%, transparent);
+    transition: color 0.15s ease;
   }
 
-  .book-uk a:hover { color: var(--violet); }
+  /* darker on hover */
+  .book-uk a:hover { color: var(--violet-dark); }
 
   .meta {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--muted);
     margin-bottom: 16px;
   }
@@ -213,14 +214,14 @@
   .progress-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
   }
 
-  /* taller, less rounded track — violet-only, light to dark */
+  /* even less rounded corners */
   .progress-track {
     flex: 1;
     height: 12px;
-    border-radius: 6px;
+    border-radius: 2px;
     background: #eef0f7;
     overflow: hidden;
     position: relative;
@@ -228,12 +229,17 @@
 
   .progress-fill {
     height: 100%;
-    border-radius: 6px;
+    border-radius: 2px;
     background: linear-gradient(90deg, var(--violet-light) 0%, var(--violet) 55%, var(--violet-dark) 100%);
     position: relative;
   }
 
-  /* shimmer stays only on in-progress bars, never on 100% */
+  /* at 100%: flat single violet, no shimmer */
+  .progress-fill.full {
+    background: var(--violet);
+  }
+
+  /* shimmer only on in-progress (non-100%) bars */
   .progress-fill.pulse::after {
     content: "";
     position: absolute;
@@ -248,7 +254,7 @@
   }
 
   .progress-label {
-    font-size: 0.92rem;
+    font-size: 0.85rem;
     font-weight: 800;
     color: var(--violet-dark);
     white-space: nowrap;
@@ -282,66 +288,62 @@
     </div>
   </header>
 
-  <div class="sections-grid">
+  <section>
+    <h2 class="section-title">Переклади</h2>
+    <ul class="book-list">
 
-    <section>
-      <h2 class="section-title">Переклади</h2>
-      <ul class="book-list">
+      <li>
+        <span class="publisher-badge">Beagle</span>
+        <p class="book-title">Ясне мислення, Шейн Перріш</p>
+        <p class="book-uk"><a href="https://www.goodreads.com/book/show/75665850-clear-thinking?ref=nav_sb_ss_1_14" target="_blank">Clear Thinking, Shane Parrish</a></p>
+        <div class="meta"><b>Жанри:</b> Психологія, Самодопомога</div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill full" style="width: 100%;"></div></div>
+          <span class="progress-label">Верстка</span>
+        </div>
+      </li>
 
-        <li>
-          <span class="publisher-badge">Beagle</span>
-          <p class="book-title">Ясне мислення, Шейн Перріш</p>
-          <p class="book-uk"><a href="https://www.goodreads.com/book/show/75665850-clear-thinking?ref=nav_sb_ss_1_14" target="_blank">Clear Thinking, Shane Parrish</a></p>
-          <div class="meta"><b>Жанри:</b> Психологія, Самодопомога</div>
-          <div class="progress-row">
-            <div class="progress-track"><div class="progress-fill pulse" style="width: 100%;"></div></div>
-            <span class="progress-label">Верстка</span>
-          </div>
-        </li>
+      <li>
+        <span class="publisher-badge">READBERRY</span>
+        <p class="book-title">Малі чудовиська, Кара Томас</p>
+        <p class="book-uk"><a href="https://www.goodreads.com/book/show/40670509-little-monsters?ac=1&from_search=true&qid=vhfy8EgrS2&rank=3" target="_blank">Little Monsters, Kara Thomas</a></p>
+        <div class="meta"><b>Жанри:</b> Трилер, Young Adult</div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill pulse" style="width: 90%;"></div></div>
+          <span class="progress-label">Редактура</span>
+        </div>
+      </li>
 
-        <li>
-          <span class="publisher-badge">READBERRY</span>
-          <p class="book-title">Малі чудовиська, Кара Томас</p>
-          <p class="book-uk"><a href="https://www.goodreads.com/book/show/40670509-little-monsters?ac=1&from_search=true&qid=vhfy8EgrS2&rank=3" target="_blank">Little Monsters, Kara Thomas</a></p>
-          <div class="meta"><b>Жанри:</b> Трилер, Young Adult</div>
-          <div class="progress-row">
-            <div class="progress-track"><div class="progress-fill pulse" style="width: 90%;"></div></div>
-            <span class="progress-label">Редактура</span>
-          </div>
-        </li>
+    </ul>
+  </section>
 
-      </ul>
-    </section>
+  <section>
+    <h2 class="section-title">Літературне редагування</h2>
+    <ul class="book-list">
 
-    <section>
-      <h2 class="section-title">Літературне редагування</h2>
-      <ul class="book-list">
+      <li>
+        <span class="publisher-badge">READBERRY</span>
+        <p class="book-title">Змієві святки, Аліна Ларіонова</p>
+        <div class="meta"><b>Жанри:</b> Магічний реалізм</div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill full" style="width: 100%;"></div></div>
+          <span class="progress-label">Верстка</span>
+        </div>
+      </li>
 
-        <li>
-          <span class="publisher-badge">READBERRY</span>
-          <p class="book-title">Змієві святки, Аліна Ларіонова</p>
-          <div class="meta"><b>Жанри:</b> Магічний реалізм</div>
-          <div class="progress-row">
-            <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
-            <span class="progress-label">Верстка</span>
-          </div>
-        </li>
+      <li>
+        <span class="publisher-badge">READBERRY</span>
+        <p class="book-title">Демонічні винаходи Аврелі Блейк, Мара Рутфорд</p>
+        <p class="book-uk"><a href="https://www.goodreads.com/book/show/234804329-the-demonic-inventions-of-aurelie-blake?ref=nav_sb_ss_1_7" target="_blank">The Demonic Inventions of Aurelie Blake, Mara Rutherford</a></p>
+        <div class="meta"><b>Жанри:</b> Роментезі, Young Adult</div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill pulse" style="width: 95%;"></div></div>
+          <span class="progress-label">Коректура</span>
+        </div>
+      </li>
 
-        <li>
-          <span class="publisher-badge">READBERRY</span>
-          <p class="book-title">Демонічні винаходи Аврелі Блейк, Мара Рутфорд</p>
-          <p class="book-uk"><a href="https://www.goodreads.com/book/show/234804329-the-demonic-inventions-of-aurelie-blake?ref=nav_sb_ss_1_7" target="_blank">The Demonic Inventions of Aurelie Blake, Mara Rutherford</a></p>
-          <div class="meta"><b>Жанри:</b> Роментезі, Young Adult</div>
-          <div class="progress-row">
-            <div class="progress-track"><div class="progress-fill" style="width: 95%;"></div></div>
-            <span class="progress-label">Коректура</span>
-          </div>
-        </li>
-
-      </ul>
-    </section>
-
-  </div>
+    </ul>
+  </section>
 
   <footer>Останнє оновлення: 26.07.2026</footer>
 
