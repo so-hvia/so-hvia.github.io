@@ -40,7 +40,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient */
+  /* cursor-following ambient gradient — 5% larger again */
   #glow {
     position: fixed;
     inset: -10%;
@@ -49,7 +49,7 @@
     filter: blur(90px);
     background:
       radial-gradient(
-        42% 42% at var(--x, 50%) var(--y, 30%),
+        44% 44% at var(--x, 50%) var(--y, 30%),
         color-mix(in srgb, var(--blue) 34%, transparent) 0%,
         color-mix(in srgb, var(--blue) 22%, transparent) 25%,
         color-mix(in srgb, var(--violet) 20%, transparent) 50%,
@@ -78,7 +78,7 @@
 
   h2.role {
     font-family: 'Manrope', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     font-style: italic;
     font-size: 1.05rem;
     color: var(--subtitle);
@@ -89,6 +89,7 @@
   .links {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
     flex-wrap: wrap;
   }
@@ -96,7 +97,7 @@
   .links a {
     text-decoration: none;
     color: var(--ink);
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.03rem;
     width: 128px;
     text-align: center;
@@ -105,14 +106,31 @@
     border: 1px solid var(--line);
     background: var(--bg-card);
     box-shadow: var(--shadow);
-    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+                background 0.15s ease;
   }
 
-  /* hover: color + lift only — border-width and font-weight stay fixed */
+  /* hover: color + lift only — no weight or width change */
   .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet-dark);
     color: var(--violet-dark);
+  }
+
+  /* CV stands out — medium size, reversed colors */
+  .links a.cv-link {
+    width: 148px;
+    padding: 14px 20px;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--violet);
+    border-color: var(--violet);
+  }
+
+  .links a.cv-link:hover {
+    background: var(--violet-dark);
+    border-color: var(--violet-dark);
+    color: #ffffff;
   }
 
   /* sections stacked, each full width */
@@ -187,19 +205,18 @@
     margin: 0 0 16px;
   }
 
+  /* color changes only on hover — same principle as the header buttons,
+     nothing shifts or reflows */
   .book-uk a {
     color: var(--muted);
     text-decoration: none;
     font-weight: 500;
     border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 45%, transparent);
-    transition: color 0.15s ease, font-weight 0.15s ease, border-bottom-width 0.15s ease;
+    transition: color 0.15s ease;
   }
 
-  /* darker, bolder, thicker underline on hover */
   .book-uk a:hover {
     color: var(--violet-dark);
-    font-weight: 700;
-    border-bottom-width: 2.5px;
   }
 
   .meta {
@@ -221,7 +238,6 @@
     margin-top: auto;
   }
 
-  /* slightly more visible empty track */
   .progress-track {
     flex: 1;
     height: 12px;
@@ -286,7 +302,7 @@
     <h1>Софія Чебан</h1>
     <h2 class="role">перекладачка, літературна редакторка</h2>
     <div class="links">
-      <a href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
+      <a class="cv-link" href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
       <a href="mailto:sofiacheban.lit@gmail.com">email</a>
       <a href="https://t.me/so_hvia" target="_blank">telegram</a>
     </div>
