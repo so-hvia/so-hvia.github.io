@@ -12,7 +12,7 @@
 <style>
   /* ---- 5-token palette: ink, muted, blue, violet, violet-tint (badge) ---- */
   :root {
-    --bg: #f2f2f2;
+    --bg: #fafafc;
     --bg-card: #ffffff;
     --line: #e6e6ee;
 
@@ -23,7 +23,6 @@
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
     --violet-light: color-mix(in srgb, var(--violet) 32%, white);
-    --badge-text: color-mix(in srgb, var(--violet) 88%, white 12%);
     --badge-bg: color-mix(in srgb, var(--violet) 12%, white);
     --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
     --shadow: 0 1px 2px rgba(20,20,20,0.04), 0 8px 24px rgba(20,20,20,0.06);
@@ -79,7 +78,7 @@
 
   h2.role {
     font-family: 'Manrope', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     font-style: italic;
     font-size: 1.05rem;
     color: var(--subtitle);
@@ -109,8 +108,7 @@
     transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
 
-  /* hover: color + lift only — border-width and font-weight stay fixed,
-     so nothing below the header shifts */
+  /* hover: color + lift only — border-width and font-weight stay fixed */
   .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet-dark);
@@ -128,37 +126,36 @@
     color: var(--ink);
   }
 
-  /* three cards per row */
+  /* wider cards, two per row — width grows instead of height */
   .book-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 22px;
+    align-items: stretch;
   }
 
-  @media (max-width: 900px) {
-    .book-list { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
     .book-list { grid-template-columns: 1fr; }
   }
 
   .book-list li {
     position: relative;
+    display: flex;
+    flex-direction: column;
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 18px 22px 22px;
     box-shadow: var(--shadow);
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease;
   }
 
+  /* no movement on hover — border only */
   .book-list li:hover {
     border-color: color-mix(in srgb, var(--violet) 40%, var(--line));
-    transform: translateY(-2px);
   }
 
   .publisher-badge {
@@ -168,7 +165,7 @@
     max-width: 120px;
     font-size: 0.8rem;
     font-weight: 700;
-    color: var(--badge-text);
+    color: var(--violet-dark);
     background: var(--badge-bg);
     padding: 5px 12px;
     border-radius: 100px;
@@ -193,12 +190,17 @@
   .book-uk a {
     color: var(--muted);
     text-decoration: none;
+    font-weight: 500;
     border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 45%, transparent);
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, font-weight 0.15s ease, border-bottom-width 0.15s ease;
   }
 
-  /* darker on hover */
-  .book-uk a:hover { color: var(--violet-dark); }
+  /* darker, bolder, thicker underline on hover */
+  .book-uk a:hover {
+    color: var(--violet-dark);
+    font-weight: 700;
+    border-bottom-width: 2.5px;
+  }
 
   .meta {
     font-size: 0.9rem;
@@ -211,18 +213,20 @@
     font-weight: 700;
   }
 
+  /* pinned to the bottom of the card, regardless of text above */
   .progress-row {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: auto;
   }
 
-  /* even less rounded corners */
+  /* slightly more visible empty track */
   .progress-track {
     flex: 1;
     height: 12px;
     border-radius: 2px;
-    background: #eef0f7;
+    background: #e2e4ee;
     overflow: hidden;
     position: relative;
   }
