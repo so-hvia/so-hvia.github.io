@@ -15,7 +15,9 @@
 - Жанри: 
 - Видавництво: 
 
-**Прогрес:** <div style="background:#eee; border-radius:4px; width:200px; height:10px;">
+**Прогрес:** 
+
+<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
   <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
 </div>
 <small> у верстці (100%)</small>
@@ -30,6 +32,7 @@
 - Видавництво: 
 
 **Прогрес:**
+
 <div style="background:#eee; border-radius:4px; width:200px; height:10px;">
   <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
 </div>
@@ -46,7 +49,9 @@
 - Жанри: 
 - Видавництво: 
 
-**Прогрес:** <div style="background:#eee; border-radius:4px; width:200px; height:10px;">
+**Прогрес:** 
+
+<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
   <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
 </div>
 <small> у верстці (100%)</small>
@@ -58,7 +63,9 @@
 - Жанри: 
 - Видавництво: 
 
-**Прогрес:** <div style="background:#eee; border-radius:4px; width:200px; height:10px;">
+**Прогрес:**
+
+<div style="background:#eee; border-radius:4px; width:200px; height:10px;">
   <div style="background:#4CAF50; width:70%; height:10px; border-radius:4px;"></div>
 </div>
 <small> у коректорки (100%)</small>
