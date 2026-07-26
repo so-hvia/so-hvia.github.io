@@ -18,7 +18,7 @@
 
     --ink: #141414;      /* primary text — not pure black */
     --muted: #62636f;    /* secondary text */
-    --blue: #3d63f5;     /* accent 1 — cursor glow only */
+    --blue: #3d63f5;     /* blended into the cursor glow only, never shown pure */
     --violet: #9350e0;   /* accent 2 */
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
@@ -40,7 +40,8 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — back to the balanced size */
+  /* cursor-following ambient gradient — bigger, but blue is now blended
+     into an indigo core instead of appearing as its own pure-blue ring */
   #glow {
     position: fixed;
     inset: -10%;
@@ -49,11 +50,11 @@
     filter: blur(90px);
     background:
       radial-gradient(
-        42% 42% at var(--x, 50%) var(--y, 30%),
-        color-mix(in srgb, var(--blue) 34%, transparent) 0%,
-        color-mix(in srgb, var(--blue) 22%, transparent) 25%,
-        color-mix(in srgb, var(--violet) 20%, transparent) 50%,
-        transparent 82%
+        46% 46% at var(--x, 50%) var(--y, 30%),
+        color-mix(in srgb, var(--violet) 55%, var(--blue) 45%) 0%,
+        color-mix(in srgb, var(--violet) 30%, transparent) 32%,
+        color-mix(in srgb, var(--violet) 16%, transparent) 58%,
+        transparent 85%
       );
   }
 
@@ -112,19 +113,19 @@
 
   /* hover: color + lift — plus a same-color ring (via box-shadow) and a
      hint of stroke on the letters, neither of which changes box size */
-  .links a:hover {
+  .links a:hover {CV Чебан Софія (4).pdf
     transform: translateY(-2px);
     border-color: var(--violet-dark);
     color: var(--violet-dark);
   }
 
-  .links a:not(.cv-link):hover {
+  .links a:not(.cv-link):hover {CV Чебан Софія (4).pdf
     box-shadow: 0 0 0 1px var(--violet-dark), var(--shadow);
     -webkit-text-stroke: 0.4px currentColor;
   }
 
   /* CV — reversed colors, same height as its neighbors, placed in the middle */
-  .links a.cv-link {
+  .links a.cv-link {CV Чебан Софія (4).pdf
     order: 0;
     width: 148px;
     padding: 12px 20px;
@@ -134,7 +135,7 @@
     border-color: var(--violet);
   }
 
-  .links a.cv-link:hover {
+  .links a.cv-link:hover {CV Чебан Софія (4).pdf
     background: var(--violet-dark);
     border-color: var(--violet-dark);
     color: #ffffff;
@@ -202,7 +203,7 @@
     font-weight: 700;
     font-size: 1.1rem;
     margin: 0 0 8px;
-    padding-right: 100px;
+    padding-right: 110px; /* clears the badge's full 130px width with a safe margin */
   }
 
   .book-uk {
@@ -286,9 +287,10 @@
     white-space: nowrap;
   }
 
+  /* footer now matches the subtitle's color */
   footer {
     text-align: center;
-    color: var(--muted);
+    color: var(--subtitle);
     font-size: 0.85rem;
     margin-top: 40px;
   }
