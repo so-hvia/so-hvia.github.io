@@ -22,6 +22,8 @@
     --midnight: #1b2559; /* accent 3 — badges only */
 
     --violet-dark: color-mix(in srgb, var(--violet) 72%, black);
+    --blue-light: color-mix(in srgb, var(--blue) 38%, white);
+    --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
     --shadow: 0 1px 2px rgba(22,22,31,0.04), 0 8px 24px rgba(22,22,31,0.06);
   }
 
@@ -37,7 +39,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — blue + violet only, slightly deeper */
+  /* cursor-following ambient gradient */
   #glow {
     position: fixed;
     inset: -10%;
@@ -57,7 +59,7 @@
   main {
     position: relative;
     z-index: 1;
-    max-width: 860px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 72px 24px 100px;
   }
@@ -75,25 +77,36 @@
     color: var(--ink);
   }
 
+  /* periodic thin shimmer sweeping through the letters — no hover needed */
   h1 .name-glow {
     position: absolute;
     left: 0;
     top: 0;
     color: var(--violet);
     opacity: 0;
-    -webkit-mask-image: radial-gradient(80px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 35%, transparent 68%);
-            mask-image: radial-gradient(80px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 35%, transparent 68%);
-    transition: opacity 0.25s ease;
+    -webkit-mask-image: linear-gradient(100deg, transparent 42%, black 50%, transparent 58%);
+            mask-image: linear-gradient(100deg, transparent 42%, black 50%, transparent 58%);
+    -webkit-mask-size: 300% 100%;
+            mask-size: 300% 100%;
+    -webkit-mask-position: -100% 0;
+            mask-position: -100% 0;
+    animation: shimmer-sweep 30s ease-in-out infinite;
     pointer-events: none;
   }
 
-  h1:hover .name-glow { opacity: 1; }
+  @keyframes shimmer-sweep {
+    0%, 90%   { opacity: 0; -webkit-mask-position: -100% 0; mask-position: -100% 0; }
+    92%       { opacity: 1; }
+    97%       { opacity: 1; -webkit-mask-position: 200% 0; mask-position: 200% 0; }
+    100%      { opacity: 0; -webkit-mask-position: 200% 0; mask-position: 200% 0; }
+  }
 
   h2.role {
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
+    font-style: italic;
     font-size: 1.05rem;
-    color: var(--muted);
+    color: var(--subtitle);
     margin: 0 0 28px;
     letter-spacing: 0.01em;
   }
@@ -130,7 +143,7 @@
 
   h2.section-title {
     font-family: 'Manrope', sans-serif;
-    font-weight: 600;
+    font-weight: 800;
     font-size: 1.55rem;
     margin: 0 0 24px;
     display: flex;
@@ -151,7 +164,7 @@
     padding: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 20px;
   }
 
   @media (max-width: 640px) {
@@ -163,7 +176,7 @@
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 22px 24px;
+    padding: 24px 26px;
     box-shadow: var(--shadow);
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
@@ -177,20 +190,23 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    font-size: 0.78rem;
+    max-width: 140px;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--midnight);
-    background: color-mix(in srgb, var(--midnight) 12%, transparent);
-    padding: 5px 12px;
+    background: color-mix(in srgb, var(--midnight) 8%, white);
+    padding: 6px 14px;
     border-radius: 100px;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
   }
 
   .book-title {
     font-weight: 700;
-    font-size: 1.02rem;
+    font-size: 1.14rem;
     margin: 0 0 10px;
-    padding-right: 110px;
+    padding-right: 130px;
   }
 
   .book-uk {
@@ -226,6 +242,7 @@
 
   .progress-track {
     flex: 1;
+    max-width: 120px;
     height: 9px;
     border-radius: 100px;
     background: #eef0f7;
@@ -236,7 +253,8 @@
   .progress-fill {
     height: 100%;
     border-radius: 100px;
-    background: linear-gradient(90deg, var(--blue), var(--violet));
+    /* light blue → blue → violet, light-to-dark */
+    background: linear-gradient(90deg, var(--blue-light) 0%, var(--blue) 55%, var(--violet) 100%);
     position: relative;
   }
 
@@ -254,12 +272,10 @@
   }
 
   .progress-label {
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     font-weight: 800;
-    color: var(--violet);
+    color: var(--violet-dark);
     white-space: nowrap;
-    min-width: 84px;
-    text-align: right;
   }
 
   footer {
@@ -271,6 +287,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .progress-fill.pulse::after { animation: none; }
+    h1 .name-glow { animation: none; opacity: 0; }
   }
 </style>
 </head>
@@ -351,7 +368,7 @@
     </ul>
   </section>
 
-  <footer>Актуально на 26.07.2026</footer>
+  <footer>Останнє оновлення: 26.07.2026</footer>
 
 </main>
 
@@ -374,16 +391,6 @@
     requestAnimationFrame(animateGlow);
   }
   animateGlow();
-
-  // name spotlight — violet reveal follows cursor within the letters
-  const nameHeading = document.querySelector('h1');
-  nameHeading.addEventListener('mousemove', (e) => {
-    const rect = nameHeading.getBoundingClientRect();
-    const mx = ((e.clientX - rect.left) / rect.width) * 100;
-    const my = ((e.clientY - rect.top) / rect.height) * 100;
-    nameHeading.style.setProperty('--mx', mx + '%');
-    nameHeading.style.setProperty('--my', my + '%');
-  });
 </script>
 
 </body>
