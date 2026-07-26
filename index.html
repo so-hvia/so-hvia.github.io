@@ -40,7 +40,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — 5% larger again */
+  /* cursor-following ambient gradient — back to the balanced size */
   #glow {
     position: fixed;
     inset: -10%;
@@ -49,7 +49,7 @@
     filter: blur(90px);
     background:
       radial-gradient(
-        44% 44% at var(--x, 50%) var(--y, 30%),
+        42% 42% at var(--x, 50%) var(--y, 30%),
         color-mix(in srgb, var(--blue) 34%, transparent) 0%,
         color-mix(in srgb, var(--blue) 22%, transparent) 25%,
         color-mix(in srgb, var(--violet) 20%, transparent) 50%,
@@ -107,20 +107,27 @@
     background: var(--bg-card);
     box-shadow: var(--shadow);
     transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease,
-                background 0.15s ease;
+                box-shadow 0.15s ease;
   }
 
-  /* hover: color + lift only — no weight or width change */
+  /* hover: color + lift — plus a same-color ring (via box-shadow) and a
+     hint of stroke on the letters, neither of which changes box size */
   .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet-dark);
     color: var(--violet-dark);
   }
 
-  /* CV stands out — medium size, reversed colors */
+  .links a:not(.cv-link):hover {
+    box-shadow: 0 0 0 1px var(--violet-dark), var(--shadow);
+    -webkit-text-stroke: 0.4px currentColor;
+  }
+
+  /* CV — reversed colors, same height as its neighbors, placed in the middle */
   .links a.cv-link {
+    order: 0;
     width: 148px;
-    padding: 14px 20px;
+    padding: 12px 20px;
     font-weight: 700;
     color: #ffffff;
     background: var(--violet);
@@ -171,7 +178,6 @@
     transition: border-color 0.2s ease;
   }
 
-  /* no movement on hover — border only */
   .book-list li:hover {
     border-color: color-mix(in srgb, var(--violet) 40%, var(--line));
   }
@@ -180,12 +186,12 @@
     position: absolute;
     top: 16px;
     right: 18px;
-    max-width: 120px;
-    font-size: 0.8rem;
+    max-width: 130px;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--violet-dark);
     background: var(--badge-bg);
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 100px;
     white-space: normal;
     text-align: center;
@@ -196,7 +202,7 @@
     font-weight: 700;
     font-size: 1.1rem;
     margin: 0 0 8px;
-    padding-right: 96px;
+    padding-right: 100px;
   }
 
   .book-uk {
@@ -205,22 +211,22 @@
     margin: 0 0 16px;
   }
 
-  /* color changes only on hover — same principle as the header buttons,
-     nothing shifts or reflows */
+  /* a modest weight bump on hover — +100, not +200, to avoid visible reflow */
   .book-uk a {
     color: var(--muted);
     text-decoration: none;
     font-weight: 500;
     border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 45%, transparent);
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, font-weight 0.15s ease;
   }
 
   .book-uk a:hover {
     color: var(--violet-dark);
+    font-weight: 600;
   }
 
   .meta {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--muted);
     margin-bottom: 16px;
   }
@@ -254,9 +260,9 @@
     position: relative;
   }
 
-  /* at 100%: flat single violet, no shimmer */
+  /* at 100%: flat, darker shade — matching the already-dark label text */
   .progress-fill.full {
-    background: var(--violet);
+    background: var(--violet-dark);
   }
 
   /* shimmer only on in-progress (non-100%) bars */
@@ -302,8 +308,8 @@
     <h1>Софія Чебан</h1>
     <h2 class="role">перекладачка, літературна редакторка</h2>
     <div class="links">
-      <a class="cv-link" href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
       <a href="mailto:sofiacheban.lit@gmail.com">email</a>
+      <a class="cv-link" href="ПОСИЛАННЯ_НА_CV" target="_blank">CV</a>
       <a href="https://t.me/so_hvia" target="_blank">telegram</a>
     </div>
   </header>
