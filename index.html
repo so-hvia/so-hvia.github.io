@@ -39,7 +39,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient */
+  /* cursor-following ambient gradient — 15% smaller radius */
   #glow {
     position: fixed;
     inset: -10%;
@@ -48,7 +48,7 @@
     filter: blur(90px);
     background:
       radial-gradient(
-        45% 45% at var(--x, 50%) var(--y, 30%),
+        38% 38% at var(--x, 50%) var(--y, 30%),
         color-mix(in srgb, var(--blue) 34%, transparent) 0%,
         color-mix(in srgb, var(--blue) 22%, transparent) 25%,
         color-mix(in srgb, var(--violet) 20%, transparent) 50%,
@@ -77,7 +77,7 @@
     color: var(--ink);
   }
 
-  /* periodic thin shimmer sweeping through the letters — no hover needed */
+  /* periodic thin shimmer sweeping through the letters — a bit more often now */
   h1 .name-glow {
     position: absolute;
     left: 0;
@@ -90,7 +90,7 @@
             mask-size: 300% 100%;
     -webkit-mask-position: -100% 0;
             mask-position: -100% 0;
-    animation: shimmer-sweep 30s ease-in-out infinite;
+    animation: shimmer-sweep 16s ease-in-out infinite;
     pointer-events: none;
   }
 
@@ -122,7 +122,7 @@
     text-decoration: none;
     color: var(--ink);
     font-weight: 700;
-    font-size: 0.98rem;
+    font-size: 1.03rem;
     width: 128px;
     text-align: center;
     padding: 12px 18px;
@@ -139,7 +139,16 @@
     color: var(--violet-dark);
   }
 
-  section + section { margin-top: 56px; }
+  /* two sections side by side */
+  .sections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 780px) {
+    .sections-grid { grid-template-columns: 1fr; }
+  }
 
   h2.section-title {
     font-family: 'Manrope', sans-serif;
@@ -163,12 +172,8 @@
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 20px;
-  }
-
-  @media (max-width: 640px) {
-    .book-list { grid-template-columns: 1fr; }
   }
 
   .book-list li {
@@ -188,8 +193,8 @@
 
   .publisher-badge {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 24px;
+    right: 26px;
     max-width: 140px;
     font-size: 0.85rem;
     font-weight: 700;
@@ -240,9 +245,9 @@
     gap: 12px;
   }
 
+  /* track now stretches to the same right edge as the publisher badge */
   .progress-track {
     flex: 1;
-    max-width: 120px;
     height: 9px;
     border-radius: 100px;
     background: #eef0f7;
@@ -310,63 +315,67 @@
     </div>
   </header>
 
-  <section>
-    <h2 class="section-title">Переклади</h2>
-    <ul class="book-list">
+  <div class="sections-grid">
 
-      <li>
-        <span class="publisher-badge">Видавництво</span>
-        <p class="book-title">Назва українською, ім'я автора/ки</p>
-        <p class="book-uk"><a href="#" target="_blank">Original Title</a>, Ім'я Автора/ки</p>
-        <div class="meta"><b>Жанри:</b> фентезі, романтика</div>
-        <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill" style="width: 70%;"></div></div>
-          <span class="progress-label">у редактора</span>
-        </div>
-      </li>
+    <section>
+      <h2 class="section-title">Переклади</h2>
+      <ul class="book-list">
 
-      <li>
-        <span class="publisher-badge">Видавництво</span>
-        <p class="book-title">Назва українською, ім'я автора/ки</p>
-        <p class="book-uk"><a href="#" target="_blank">Original Title 2</a>, Ім'я Автора/ки</p>
-        <div class="meta"><b>Жанри:</b> проза</div>
-        <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill pulse" style="width: 35%;"></div></div>
-          <span class="progress-label">у процесі</span>
-        </div>
-      </li>
+        <li>
+          <span class="publisher-badge">Видавництво</span>
+          <p class="book-title">Назва українською, ім'я автора/ки</p>
+          <p class="book-uk"><a href="#" target="_blank">Original Title</a>, Ім'я Автора/ки</p>
+          <div class="meta"><b>Жанри:</b> фентезі, романтика</div>
+          <div class="progress-row">
+            <div class="progress-track"><div class="progress-fill" style="width: 70%;"></div></div>
+            <span class="progress-label">у редактора</span>
+          </div>
+        </li>
 
-    </ul>
-  </section>
+        <li>
+          <span class="publisher-badge">Видавництво</span>
+          <p class="book-title">Назва українською, ім'я автора/ки</p>
+          <p class="book-uk"><a href="#" target="_blank">Original Title 2</a>, Ім'я Автора/ки</p>
+          <div class="meta"><b>Жанри:</b> проза</div>
+          <div class="progress-row">
+            <div class="progress-track"><div class="progress-fill pulse" style="width: 35%;"></div></div>
+            <span class="progress-label">у процесі</span>
+          </div>
+        </li>
 
-  <section>
-    <h2 class="section-title">Літературне редагування</h2>
-    <ul class="book-list">
+      </ul>
+    </section>
 
-      <li>
-        <span class="publisher-badge">Видавництво</span>
-        <p class="book-title">Назва українською, ім'я автора/ки</p>
-        <p class="book-uk"><a href="#" target="_blank">Original Title 3</a>, Ім'я Автора/ки</p>
-        <div class="meta"><b>Жанри:</b> нонфікшн</div>
-        <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
-          <span class="progress-label">у верстці</span>
-        </div>
-      </li>
+    <section>
+      <h2 class="section-title">Літературне редагування</h2>
+      <ul class="book-list">
 
-      <li>
-        <span class="publisher-badge">Видавництво</span>
-        <p class="book-title">Назва українською, ім'я автора/ки</p>
-        <p class="book-uk"><a href="#" target="_blank">Original Title 4</a>, Ім'я Автора/ки</p>
-        <div class="meta"><b>Жанри:</b> драма</div>
-        <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
-          <span class="progress-label">у коректорки</span>
-        </div>
-      </li>
+        <li>
+          <span class="publisher-badge">Видавництво</span>
+          <p class="book-title">Назва українською, ім'я автора/ки</p>
+          <p class="book-uk"><a href="#" target="_blank">Original Title 3</a>, Ім'я Автора/ки</p>
+          <div class="meta"><b>Жанри:</b> нонфікшн</div>
+          <div class="progress-row">
+            <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
+            <span class="progress-label">у верстці</span>
+          </div>
+        </li>
 
-    </ul>
-  </section>
+        <li>
+          <span class="publisher-badge">Видавництво</span>
+          <p class="book-title">Назва українською, ім'я автора/ки</p>
+          <p class="book-uk"><a href="#" target="_blank">Original Title 4</a>, Ім'я Автора/ки</p>
+          <div class="meta"><b>Жанри:</b> драма</div>
+          <div class="progress-row">
+            <div class="progress-track"><div class="progress-fill" style="width: 100%;"></div></div>
+            <span class="progress-label">у коректорки</span>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+  </div>
 
   <footer>Останнє оновлення: 26.07.2026</footer>
 
