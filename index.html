@@ -123,7 +123,13 @@
     box-shadow: 0 0 0 0.5px var(--violet), var(--shadow);
     -webkit-text-stroke: 0.4px currentColor;
   }
-
+/* mobile only: CV сідає окремим рядком над Email + Telegram —
+   десктопна верстка (усі три в один ряд) лишається незмінною */
+@media (max-width: 480px) {
+  .links a.cv-link {
+    order: -1;
+    flex-basis: 100%;
+  }
   /* CV — reversed colors, grows in width (not height) to fit its longer label */
   .links a.cv-link {
     order: 0;
