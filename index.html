@@ -237,14 +237,13 @@
     text-decoration: none;
     font-weight: 500;
     border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 45%, transparent);
-    /* transition: color 0.15s ease, font-weight 0.15s ease;   */
-    transition: color 0.15s ease, text-shadow 0.15s ease; 
+    transition: color 0.15s ease, -webkit-text-stroke 0.15s ease;
+   -webkit-text-stroke: 0px transparent;
   }
 
   .book-uk a:hover {
-    color: var(--violet-dark);
-    text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor;
-    /* font-weight: bold; */
+    color: var(--violet-dark);     
+    -webkit-text-stroke: 0.4px currentColor
   }
 
   .meta {
