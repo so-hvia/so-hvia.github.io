@@ -146,13 +146,19 @@
   }
 
   /* mobile only: CV sits alone on its own line above Email + Telegram —
-     desktop layout (order: 0 on all three, natural DOM order) is untouched */
-  @media (max-width: 480px) {
-    .links a.cv-link {
-      order: -1;
-      flex-basis: 100%;
-    }
+     desktop layout (order: 0 on all three, natural DOM order) is untouched. Mobile layout changed order and size to match to Переглянути CV button */
+ @media (max-width: 480px) {
+  .links a.cv-link {
+    order: -1;
+    width: 230px;
+    min-width: 230px;
   }
+  .links a:not(.cv-link) {
+    width: 110px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 
   /* sections stacked, each full width */
   section + section { margin-top: 56px; }
