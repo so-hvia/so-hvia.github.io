@@ -16,7 +16,7 @@
     --bg-card: #ffffff;
     --line: #e6e6ee;
 
-    --ink: #342E37;      /* body text — not pure black */
+    --ink: #342E37;      /* body text — matches heading */
     --heading: #342E37;  /* headings only (h1, section titles) */
     --muted: #62636f;    /* secondary text */
     --violet: #9350e0;   /* accent */
@@ -41,7 +41,7 @@
     overflow-x: hidden;
   }
 
-  /* cursor-following ambient gradient — 5% smaller */
+  /* cursor-following ambient gradient — more visible now */
   #glow {
     position: fixed;
     inset: -10%;
@@ -51,9 +51,9 @@
     background:
       radial-gradient(
         40% 40% at var(--x, 50%) var(--y, 30%),
-        color-mix(in srgb, var(--violet-pale) 34%, transparent) 0%,
-        color-mix(in srgb, var(--violet-pale) 22%, transparent) 25%,
-        color-mix(in srgb, var(--violet) 20%, transparent) 50%,
+        color-mix(in srgb, var(--violet-pale) 44%, transparent) 0%,
+        color-mix(in srgb, var(--violet-pale) 30%, transparent) 25%,
+        color-mix(in srgb, var(--violet) 26%, transparent) 50%,
         transparent 82%
       );
   }
@@ -111,15 +111,16 @@
                 box-shadow 0.15s ease;
   }
 
-  /* hover: lighter violet border, as it was before */
+  /* hover: border and text now the same violet */
   .links a:hover {
     transform: translateY(-2px);
     border-color: var(--violet);
-    color: var(--violet-dark);
+    color: var(--violet);
   }
 
+  /* thinner ring than before (0.5px instead of 1px) */
   .links a:not(.cv-link):hover {
-    box-shadow: 0 0 0 1px var(--violet), var(--shadow);
+    box-shadow: 0 0 0 0.5px var(--violet), var(--shadow);
     -webkit-text-stroke: 0.4px currentColor;
   }
 
@@ -343,7 +344,7 @@
           <span class="progress-label">Верстка</span>
         </div>
       </li>
- 
+
     </ul>
   </section>
 
@@ -383,7 +384,7 @@
   // ambient cursor glow (page-wide, smoothed)
   const glow = document.getElementById('glow');
   let targetX = 50, targetY = 30;
-  let curX = 50, curY = 30; 
+  let curX = 50, curY = 30;
 
   window.addEventListener('mousemove', (e) => {
     targetX = (e.clientX / window.innerWidth) * 100;
