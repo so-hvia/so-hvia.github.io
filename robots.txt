@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://ваше_ім'я.github.io/назва_репозиторію/sitemap.xml
+Sitemap: https://so-hvia.github.io/so-hvia.github.io/sitemap.xml
