@@ -33,6 +33,13 @@
 
   * { box-sizing: border-box; }
 
+/* Робимо так, щоб при завантаженні сторінка мікроскопічно "здригнулася" */
+@keyframes wakeUpTouchpad {
+  0% { padding-top: 1px; }
+  100% { padding-top: 0px; }
+}
+
+  
   html, body {
     margin: 0;
     padding: 0;
@@ -44,8 +51,11 @@
     cursor: url("cursor (1).png"), auto;
     
   }
+  /* Запускаємо мікро-анімацію на 0.01 секунди, яка змусить курсор з'явитися */
+  animation: wakeUpTouchpad 0.01s ease-out;
+}
 
-  a {
+a {
   cursor: url("pointer.png"), pointer;
 }
 
@@ -484,9 +494,6 @@
   }
   animateGlow();
 
-  window.addEventListener('DOMContentLoaded', () => {
-    document.documentElement.style.cursor = 'url("cursor (1).png"), auto';
-  });
 </script>
 
   
