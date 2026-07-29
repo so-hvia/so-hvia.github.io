@@ -153,7 +153,27 @@
     order: -1;
   }
 }
- @media (max-width: 480px) {
+
+  /* 481-600px: cap the whole button row so CV doesn't stretch edge-to-edge —
+     350px matches Telegram(170) + Email(170) + gap(10) exactly, so both rows line up */
+  @media (max-width: 600px) and (min-width: 481px) {
+    .links {
+      max-width: 350px;
+      margin: 0 auto;
+    }
+    .links a.cv-link {
+      width: 100%;
+    }
+    .links a:not(.cv-link) {
+      width: 170px;
+    }
+  }
+
+.role-break {
+  display: none;
+}
+
+@media (max-width: 480px) {
   .links a.cv-link {
     order: -1;
     width: 310px;
@@ -163,6 +183,9 @@
     width: 150px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+  .role-break {
+    display: inline;
   }
 }
 
@@ -175,17 +198,6 @@
     font-size: 1.55rem;
     margin: 0 0 24px;
     color: var(--heading);
-  }
-
-  /* wider cards, two per row — width grows instead of height */
-  .book-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-    gap: 22px;
-    align-items: stretch;
   }
 
   /* extra-narrow phones (older/budget devices, CSS width ~320-374px):
@@ -218,18 +230,7 @@
       padding-right: 0;
     }
   }
- 
-  /* sections stacked, each full width */
-  section + section { margin-top: 56px; }
- 
-  h2.section-title {
-    font-family: 'Manrope', sans-serif;
-    font-weight: 800;
-    font-size: 1.55rem;
-    margin: 0 0 24px;
-    color: var(--heading);
-  }
- 
+
   /* wider cards, two per row — width grows instead of height */
   .book-list {
     list-style: none;
@@ -388,7 +389,7 @@
 
   <header>
     <h1>𝆹 Софія Чебан 𝆹</h1>
-    <h2 class="role">перекладачка, літературна редакторка</h2>
+    <h2 class="role">перекладачка,<br class="role-break"> літературна редакторка</h2>
     <div class="links">
       <a href="https://t.me/so_hvia" target="_blank">Telegram</a>  
       <a class="cv-link" href="CV.pdf" target="_blank">Переглянути CV</a>
