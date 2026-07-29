@@ -42,12 +42,12 @@
     font-weight: 500;
     overflow-x: hidden;
     cursor: url("cursor.png"), auto;
-    
-a {
-  cursor: url("pointer finger.png"), pointer;
-}
+  }
 
-   
+  a {
+    cursor: url("pointer finger.png"), pointer;
+  }
+
   /* cursor-following ambient gradient */
   #glow {
     position: fixed;
@@ -183,11 +183,20 @@ a {
     order: -1;
     width: 310px;
     min-width: 260px;
+    font-size: 1.15rem;
   }
   .links a:not(.cv-link) {
     width: 150px;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 1.1rem;
+  }
+  .links a.cv-link,
+  .links a:not(.cv-link) {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .role-break {
     display: inline;
