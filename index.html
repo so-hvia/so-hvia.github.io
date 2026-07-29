@@ -32,13 +32,6 @@
   }
 
   * { box-sizing: border-box; }
-
-/* Робимо так, щоб при завантаженні сторінка мікроскопічно "здригнулася" */
-@keyframes wakeUpTouchpad {
-  0% { padding-top: 1px; }
-  100% { padding-top: 0px; }
-}
-
   
   html, body {
     margin: 0;
@@ -50,11 +43,6 @@
     overflow-x: hidden;
     cursor: url("cursor (1).png"), auto;
     
-  }
-  /* Запускаємо мікро-анімацію на 0.01 секунди, яка змусить курсор з'явитися */
-  animation: wakeUpTouchpad 0.01s ease-out;
-}
-
 a {
   cursor: url("pointer.png"), pointer;
 }
@@ -494,6 +482,11 @@ a {
   }
   animateGlow();
 
+window.addEventListener('mousemove', function functionOnce() {
+    // 1. Миттєво застосовуємо курсор при першому ж мікро-руху
+    document.body.style.cursor = 'url("cursor (1).png"), auto';
+  }, { once: true }); // Флаг { once: true } гарантує, що код спрацює лише 1 раз
+  
 </script>
 
   
