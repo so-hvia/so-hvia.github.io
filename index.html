@@ -148,6 +148,11 @@
 
   /* mobile only: CV sits alone on its own line above Email + Telegram —
      desktop layout (order: 0 on all three, natural DOM order) is untouched. Mobile layout changed order and size to match to Переглянути CV button */
+ @media (max-width: 600px) {
+  .links a.cv-link {
+    order: -1;
+  }
+}
  @media (max-width: 480px) {
   .links a.cv-link {
     order: -1;
@@ -183,6 +188,59 @@
     align-items: stretch;
   }
 
+  /* extra-narrow phones (older/budget devices, CSS width ~320-374px):
+     tighter side padding, smaller buttons, badge no longer overlaps title */
+  @media (max-width: 380px) {
+    main {
+      padding: 48px 14px 36px;
+    }
+    .links a.cv-link {
+      width: 100%;
+      min-width: unset;
+    }
+    .links a:not(.cv-link) {
+      width: 120px;
+      font-size: 0.95rem;
+      padding: 10px 8px;
+    }
+    .book-list li {
+      padding: 16px 16px 18px;
+    }
+    .publisher-badge {
+      position: static;
+      display: inline-block;
+      max-width: none;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      padding: 5px 12px;
+    }
+    .book-title {
+      padding-right: 0;
+    }
+  }
+ 
+  /* sections stacked, each full width */
+  section + section { margin-top: 56px; }
+ 
+  h2.section-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.55rem;
+    margin: 0 0 24px;
+    color: var(--heading);
+  }
+ 
+  /* wider cards, two per row — width grows instead of height */
+  .book-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 22px;
+    align-items: stretch;
+  }
+  
   @media (max-width: 640px) {
     .book-list { grid-template-columns: 1fr; }
   }
