@@ -425,7 +425,7 @@
   .progress-fill {
     height: 100%;
     border-radius: 2px;
-    background: linear-gradient(90deg, var(--violet-light) 0%, var(--violet) 55%, var(--violet-dark) 100%);
+    background: linear-gradient(90deg, var(--violet-light) 5%, var(--violet) 55%, var(--violet-dark) 100%);
     position: relative;
   }
 
@@ -444,9 +444,9 @@
     animation: shimmer 1.8s linear infinite;
   }
 
-  /* Зменшуємо непрозорість анімації відблиску для низького прогресу до 60-70% */
-.progress-fill.pulse.low-progress::after {
-  opacity: 0.50; /* Задає 50% від початкової яскравості анімації У HTML для потрібної картки: <div class="progress-fill pulse low-progress" style="width: 30%;"></div> */
+.progress-fill.low-progress {
+  /* Замість найтемнішого кольору (var(--violet-dark)) ми зупиняємося на середньому фіолетовому */
+  background: linear-gradient(90deg, var(--violet-light) 5%, var(--violet) 100%) !important;
 }
 
   @keyframes shimmer {
@@ -498,7 +498,7 @@
     <h2 class="section-title">Переклади</h2>
     <ul class="book-list">
 
-      
+    <!-- Якщо книжка нова і до 30% -  <div class="progress-fill pulse low-progress" style="width: 30%;"></div>  -->
       <li>
         <span class="publisher-badge">READBERRY</span>
         <p class="book-title is-blurred">Малі чудовиська, Кара Томас</p>
