@@ -343,16 +343,23 @@
     line-height: 1.2;
   }
 
-  .book-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin: 0 0 8px;
-    padding-right: 110px; /* clears the badge's full 130px width with a safe margin */
- color: transparent; /* Робимо оригінальний текст прозорим */
-  text-shadow: 0 0 9px var(--ink); /* Створюємо розмиту тінь кольору тексту */
-  user-select: none; /* Забороняємо виділення тексту мишкою */
-  }
+  /* Базові стилі для ВСІХ назв книг (без блюру) */
+.book-title { 
+  font-weight: 700; 
+  font-size: 1.1rem; 
+  margin: 0 0 8px; 
+  padding-right: 110px; 
+  color: var(--ink); /* Початковий нормальний колір тексту */
+  transition: color 0.15s ease;
+}
 
+/* Стилі, які увімкнуть блюр ТІЛЬКИ для потрібних книг */
+.book-title.is-blurred {
+  color: transparent !important;       /* Робимо оригінальний текст прозорим */
+  text-shadow: 0 0 9px var(--ink);     /* Створюємо розмиту тінь */
+  user-select: none;                   /* Забороняємо виділення */
+  pointer-events: none;                /* Вимикаємо клікабельність */
+}
  /* Ваш блок зберігає відступи та структуру */
 .book-uk { 
   font-size: 0.93rem; 
@@ -488,18 +495,19 @@
       
       <li>
         <span class="publisher-badge">READBERRY</span>
-        <p class="book-title">Малі чудовиська, Кара Томас</p>
-        <p class="book-uk"> <span class="blur-me"><a href="https://www.goodreads.com/book/show/40670509-little-monsters?ac=1&from_search=true&qid=vhfy8EgrS2&rank=3" target="_blank">Little Monsters, Kara Thomas</a></p></>
+        <p class="book-title is-blurred">Малі чудовиська, Кара Томас</p>
+        <p class="book-uk"> <span class="blur-me"><a href="https://www.goodreads.com/book/show/40670509-little-monsters?ac=1&from_search=true&qid=vhfy8EgrS2&rank=3" target="_blank">Little Monsters, Kara Thomas</a></span> </p>
         <div class="meta"><b>Жанри:</b> Трилер, Young Adult</div>
         <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill pulse" style="width: 99.9%;"></span></div>
-          <span class="progress-label">Редактура</span>
-        </div>
+          <div class="progress-track">
+          <div class="progress-fill pulse" style="width: 99.9%;"></div>
+          </div>
+          <span class="progress-label">Редактура</span> 
       </li>
 
       <li>
         <span class="publisher-badge">Beagle</span>
-        <p class="book-title">Ясне мислення, Шейн Перріш</p>
+        <p class="book-title is-blurred">Ясне мислення, Шейн Перріш</p>
         <p class="book-uk"><span class="blur-me"><a href="https://www.goodreads.com/book/show/75665850-clear-thinking?ref=nav_sb_ss_1_14" target="_blank">Clear Thinking, Shane Parrish</a></p>
         <div class="meta"><b>Жанри:</b> Психологія, Самодопомога</span></div>
         <div class="progress-row">
@@ -517,7 +525,7 @@
 
       <li>
         <span class="publisher-badge">READBERRY</span>
-        <p class="book-title">Демонічні винаходи Аврелі Блейк, Мара Рутерфорд</p>
+        <p class="book-title is-blurred">Демонічні винаходи Аврелі Блейк, Мара Рутерфорд</p>
         <p class="book-uk"><span class="blur-me"><a href="https://www.goodreads.com/book/show/234804329-the-demonic-inventions-of-aurelie-blake?ref=nav_sb_ss_1_7" target="_blank">The Demonic Inventions of Aurelie Blake, Mara Rutherford</a></span></p>
         <div class="meta"><b>Жанри:</b> Роментезі, Young Adult</div>
         <div class="progress-row">
@@ -528,7 +536,7 @@
 
       <li>
         <span class="publisher-badge">READBERRY</span>
-        <p class="book-title"><span class="blur-me">Змієві святки, Аліна Ларіонова</span></p>
+        <p class="book-title is-blurred"><span class="blur-me">Змієві святки, Аліна Ларіонова</span></p>
         <div class="meta"><b>Жанри:</b> Магічний реалізм</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill full" style="width: 100%;"></div></div>
