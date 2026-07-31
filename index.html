@@ -444,6 +444,11 @@
     animation: shimmer 1.8s linear infinite;
   }
 
+  /* Зменшуємо непрозорість анімації відблиску для низького прогресу до 60-70% */
+.progress-fill.pulse.low-progress::after {
+  opacity: 0.50; /* Задає 50% від початкової яскравості анімації У HTML для потрібної картки: <div class="progress-fill pulse low-progress" style="width: 30%;"></div> */
+}
+
   @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
