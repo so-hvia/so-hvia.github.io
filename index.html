@@ -75,6 +75,54 @@
 
   header { text-align: center; margin-bottom: 56px; }
 
+  /* status badge — pill shape, same visual language as .publisher-badge
+     on the book cards (tinted background, dark-tinted text). Width
+     follows the text naturally (inline-flex, no fixed width). The round
+     dot before the text always matches the text color via currentColor,
+     so it never needs a separate rule per state. */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 16px;
+    margin-bottom: 20px;
+    border-radius: 100px;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+ 
+  .status-badge::before {
+    content: "";
+    display: block;
+    width: 8px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+ 
+
+/* Класи станів (HEX-кольори) */
+.status-badge.state-pink {
+  background-color: #ffe6f2; 
+  color: #b80066; 
+}
+
+.status-badge.state-sky {
+  background-color: #e6f7ff; 
+  color: #006699; 
+}
+
+.status-badge.state-blue {
+  background-color: #e6e6ff; 
+  color: #0000b3; 
+}
+
+.status-badge.state-teal {
+  background-color: #e6fffa; 
+  color: #006d77;            
+}
+
   h1 {
     font-family: 'Manrope', sans-serif;
     font-weight: 600;
@@ -404,6 +452,10 @@
 <main>
 
   <header>
+    <!-- Status badge — 4 states available in CSS: state-pink, state-sky,
+         state-blue, state-teal. Swap the class and the text below once
+         the exact wording for each status is decided. -->
+    <div class="status-badge state-teal">Приймаю нові проєкти</div>
     <h1>𝆹 Софія Чебан 𝆹</h1>
     <h2 class="role">перекладачка,<br class="role-break"> літературна редакторка</h2>
     <div class="links">
