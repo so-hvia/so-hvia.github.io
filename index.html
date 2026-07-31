@@ -79,19 +79,20 @@
 .status-badge { 
   display: inline-flex; 
   align-items: center; 
-  gap: 7px; 
-  padding: 6px 12px; /* Трохи зменшили падінги для компактності */
+  gap: 8px; 
+  padding: 8px 16px; /* Збільшили внутрішні відступи для об'єму */
   margin-bottom: 20px; 
-  border-radius: 6px; /* 💡 Змініть на 8px, якщо у прогрес-барі закруглення більші */
-  font-size: 0.85rem; 
+  border-radius: 6px; /* 💡 Збільшено до 6px, щоб кути виглядали гармонійно з новим розміром */
+  font-size: 0.95rem; /* 🔤 Збільшено шрифт (було 0.85rem) */ 
   font-weight: 700; 
+  line-height: 1.2;
 } 
 
 /* Маленька крапка перед текстом */
 .status-badge::before { 
   content: ""; 
   display: block; 
-  width: 8px; 
+  width: 9px; 
   aspect-ratio: 1 / 1; 
   border-radius: 50%; 
   background: currentColor; 
