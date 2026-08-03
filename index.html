@@ -268,8 +268,141 @@
     font-family: 'Manrope', sans-serif;
     font-weight: 800;
     font-size: 1.55rem;
-    margin: 0 0 24px;
+    margin: 0;
     color: var(--heading);
+  }
+
+  /* заголовок секції + кнопка завантаження в один ряд,
+     контейнер = ширина section = ширина .book-list, тож правий край
+     кнопки завжди співпадає з правим краєм карток */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 24px;
+  }
+
+  /* кругла кнопка-бейдж, що розгортається вліво:
+     правий край (іконка) зафіксований через justify-content: flex-end
+     батька, зростання ширини відбувається вліво */
+  .dl-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 40px;
+    border-radius: 999px;
+    background: var(--bg-card);
+    color: var(--muted);
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .dl-badge:hover,
+  .dl-badge.expanded {
+    background: var(--violet);
+    color: #ffffff;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--violet) 35%, transparent);
+  }
+
+  .dl-badge-text {
+    max-width: 0;
+    opacity: 0;
+    padding-left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: max-width 0.3s ease, opacity 0.2s ease, padding-left 0.3s ease;
+  }
+
+  .dl-badge:hover .dl-badge-text,
+  .dl-badge.expanded .dl-badge-text {
+    max-width: 220px;
+    opacity: 1;
+    padding-left: 16px;
+  }
+
+  .dl-badge-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dl-badge-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* трохи менша кнопка на вужчих екранах, узгоджено з наявними брейкпоінтами */
+  @media (max-width: 480px) {
+    .dl-badge {
+      height: 36px;
+    }
+    .dl-badge-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .dl-badge-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+    .dl-badge-text {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .section-header {
+      flex-wrap: wrap;
+      row-gap: 24px;
+    }
+    /* заголовок займає весь рядок, кнопка переноситься одразу під нього,
+       без відступу праворуч — щоб не лишалось пустого місця в рядку */
+    .section-header h2.section-title {
+      flex: 1 1 100%;
+    }
+    .dl-badge {
+      height: 32px;
+      max-width: 100%;
+      overflow: visible;
+      flex-direction: row-reverse;
+      /* однаковий внутрішній відступ з обох боків кнопки;
+         відстань іконка-текст керується через gap, а не через
+         padding-left на тексті (той спосіб призначався для анімації
+         на інших екранах і тут давав неконтрольований зайвий проміжок) */
+      padding: 0 14px;
+      gap: 8px;
+    }
+    .dl-badge-icon {
+      /* прибираємо зайву "порожню" коробку 32×32 навколо іконки —
+         вона й додавала зайвий невидимий відступ зліва */
+      width: auto;
+      height: auto;
+    }
+    .dl-badge-text,
+    .dl-badge:hover .dl-badge-text,
+    .dl-badge.expanded .dl-badge-text {
+      max-width: none;
+      width: auto;
+      opacity: 1;
+      overflow: visible;
+      padding-left: 0;
+    }
+    .dl-badge,
+    .dl-badge:hover,
+    .dl-badge.expanded {
+      /* напівпрозора підложка, похідна від кольору шрифта */
+      background: color-mix(in srgb, currentColor 14%, transparent);
+      color: var(--muted);
+      box-shadow: none;
+    }
   }
 
   /* extra-narrow phones (older/budget devices, CSS width ~320-374px):
@@ -317,6 +450,16 @@
   
   @media (max-width: 640px) {
     .book-list { grid-template-columns: 1fr; }
+  }
+
+  .edit-title-break {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .edit-title-break {
+      display: inline;
+    }
   }
 
  .book-list li {
@@ -503,7 +646,15 @@
   </header>
 
   <section>
-    <h2 class="section-title">Переклади</h2>
+    <div class="section-header">
+      <h2 class="section-title">Переклади</h2>
+      <a class="dl-badge" href="Переклад Трилер.pdf" download aria-label="Завантажити уривок">
+        <span class="dl-badge-text">Завантажити уривок</span>
+        <span class="dl-badge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        </span>
+      </a>
+    </div>
     <ul class="book-list">
 
     <!-- Якщо книжка нова і до 30% -  <div class="progress-fill pulse low-progress" style="width: 30%;"></div>  -->
@@ -534,7 +685,15 @@
   </section>
 
   <section>
-    <h2 class="section-title">Літературне редагування</h2>
+    <div class="section-header">
+      <h2 class="section-title">Літературне<br class="edit-title-break"> редагування</h2>
+      <a class="dl-badge" href="Редагування Нон-фікшен.docx" download aria-label="Завантажити уривок">
+        <span class="dl-badge-text">Завантажити уривок</span>
+        <span class="dl-badge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        </span>
+      </a>
+    </div>
     <ul class="book-list">
 
       <li>
@@ -585,6 +744,32 @@
   }
   animateGlow();
 
+  // кнопки завантаження: на пристроях без hover (телефони/планшети)
+  // перший тап лише розгортає кнопку, другий тап (уже розгорнутої) качає файл
+  const dlBadges = document.querySelectorAll('.dl-badge');
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  dlBadges.forEach((badge) => {
+    badge.addEventListener('click', (e) => {
+      // на десктопі (є hover) і на найвужчих екранах (кнопка вже
+      // розгорнута одразу) — клік одразу качає файл
+      const alwaysExpanded = window.matchMedia('(max-width: 380px)').matches;
+      if (canHover || alwaysExpanded) return;
+
+      if (!badge.classList.contains('expanded')) {
+        e.preventDefault();
+        dlBadges.forEach((b) => { if (b !== badge) b.classList.remove('expanded'); });
+        badge.classList.add('expanded');
+      }
+      // якщо кнопка вже розгорнута — переходимо за посиланням (завантаження)
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dl-badge')) {
+      dlBadges.forEach((b) => b.classList.remove('expanded'));
+    }
+  });
 </script>
 
   
