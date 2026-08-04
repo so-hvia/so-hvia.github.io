@@ -321,7 +321,7 @@
 
   .dl-badge:hover .dl-badge-text,
   .dl-badge.expanded .dl-badge-text {
-    max-width: 220px;
+    max-width: 180px;
     opacity: 1;
     padding-left: 16px;
   }
@@ -355,30 +355,36 @@
     }
     .dl-badge-text {
       font-size: 0.8rem;
+      text-transform: capitalize;
+    }
+    /* тут кнопка ще фіолетова й розгортається по кліку/наведенню,
+       але повний текст "Завантажити уривок" задовгий і не вміщається —
+       лишаємо тільки "Уривок", оформлення і поведінку не чіпаємо */
+    .dl-badge-text-full {
+      display: none;
+    }
+    /* коротке слово "Уривок" набагато вужче за 220px (ціль, розраховану
+       під довгий текст) — через це воно добігає до повної ширини рано,
+       а max-width ще довго анімується "в порожнечу", даючи той самий
+       ефект зайвого дотягування зліва. Звужуємо ціль під реальний текст,
+       зберігаючи ту саму пропорцію контент/ціль, що на десктопі */
+    .dl-badge:hover .dl-badge-text,
+    .dl-badge.expanded .dl-badge-text {
+      max-width: 75px;
     }
   }
 
   @media (max-width: 380px) {
-    .section-header {
-      flex-wrap: wrap;
-      row-gap: 24px;
-    }
-    /* заголовок займає весь рядок, кнопка переноситься одразу під нього,
-       без відступу праворуч — щоб не лишалось пустого місця в рядку */
-    .section-header h2.section-title {
-      flex: 1 1 100%;
-    }
+    /* кнопка лишається в тому самому рядку, що й заголовок (не
+       переноситься нижче), і показує лише іконку + слово «Уривок» —
+       повний текст "Завантажити " приховано нижче */
     .dl-badge {
       height: 32px;
       max-width: 100%;
       overflow: visible;
       flex-direction: row-reverse;
-      /* однаковий внутрішній відступ з обох боків кнопки;
-         відстань іконка-текст керується через gap, а не через
-         padding-left на тексті (той спосіб призначався для анімації
-         на інших екранах і тут давав неконтрольований зайвий проміжок) */
-      padding: 0 14px;
-      gap: 8px;
+      padding: 0 10px;
+      gap: 6px;
     }
     .dl-badge-icon {
       /* прибираємо зайву "порожню" коробку 32×32 навколо іконки —
@@ -394,6 +400,13 @@
       opacity: 1;
       overflow: visible;
       padding-left: 0;
+      font-size: 0.78rem;
+      /* "Завантажити " приховано — лишається "уривок",
+         з великої літери завдяки capitalize */
+      text-transform: capitalize;
+    }
+    .dl-badge-text-full {
+      display: none;
     }
     .dl-badge,
     .dl-badge:hover,
@@ -402,6 +415,24 @@
       background: color-mix(in srgb, currentColor 14%, transparent);
       color: var(--muted);
       box-shadow: none;
+    }
+  }
+
+  /* якщо навіть іконка + "Уривок" не влазять поруч із заголовком —
+     складаємо вміст кнопки у два рядки (іконка зверху, слово знизу),
+     та все одно лишаємо кнопку в рядку заголовка, відцентрованою
+     відносно нього */
+  @media (max-width: 340px) {
+    .dl-badge {
+      flex-direction: column-reverse;
+      height: auto;
+      padding: 6px 10px;
+      gap: 2px;
+      border-radius: 14px;
+    }
+    .dl-badge-text {
+      font-size: 0.66rem;
+      line-height: 1;
     }
   }
 
@@ -649,7 +680,7 @@
     <div class="section-header">
       <h2 class="section-title">Переклади</h2>
       <a class="dl-badge" href="Переклад Трилер Чебан.pdf" download aria-label="Завантажити уривок">
-        <span class="dl-badge-text">Завантажити уривок</span>
+        <span class="dl-badge-text"><span class="dl-badge-text-full">Завантажити </span>уривок</span>
         <span class="dl-badge-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
         </span>
@@ -688,7 +719,7 @@
     <div class="section-header">
       <h2 class="section-title">Літературне<br class="edit-title-break"> редагування</h2>
       <a class="dl-badge" href="Редагування Нон-фікшен.docx" download aria-label="Завантажити уривок">
-        <span class="dl-badge-text">Завантажити уривок</span>
+        <span class="dl-badge-text"><span class="dl-badge-text-full">Завантажити </span>уривок</span>
         <span class="dl-badge-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
         </span>
