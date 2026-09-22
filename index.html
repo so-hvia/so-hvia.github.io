@@ -29,6 +29,7 @@
     --badge-bg: color-mix(in srgb, var(--violet) 12%, white);
     --subtitle: color-mix(in srgb, var(--ink) 55%, var(--violet) 45%);
     --shadow: 0 1px 2px rgba(20,20,20,0.04), 0 8px 24px rgba(20,20,20,0.06);
+    --news-width: 320px; /* width of the news column (desktop only) */
   }
 
   * { box-sizing: border-box; }
@@ -505,6 +506,13 @@
     transition: border-color 0.2s ease;
   }
 
+  /* when a section has an odd number of books, the last card ends up
+     alone in the final row — stretch it to span both columns so its
+     edges line up with the outer edges of the row above it */
+  .book-list li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .book-list li:hover {
     border-color: color-mix(in srgb, var(--violet) 40%, var(--line));
   }
@@ -643,6 +651,255 @@
     white-space: nowrap;
   }
 
+  /* a progress-label can hold a link (e.g. "Передпродаж") instead of
+     plain text — before it's clicked it should read exactly like the
+     plain-text labels on other cards (same size, weight, color), with
+     only an underline added to signal it's clickable */
+  .progress-label a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+  }
+
+  /* after the reader clicks through: same color and underline, just a
+     lighter weight. Applied via a stored class (see script below) rather
+     than :visited — browsers only allow :visited to change color-related
+     properties, not font-weight, so :visited alone can't do this */
+  .progress-label a.label-visited {
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     "Новини" — content-layout holds the two book sections and the
+     news column side by side, as plain grid siblings, so both
+     start at the exact same vertical position.
+     ============================================================ */
+  .content-layout {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .content-layout {
+      display: grid;
+      grid-template-columns: 1fr var(--news-width);
+      gap: 40px;
+      align-items: start;
+    }
+  }
+
+  /* "Новини" column.
+     - Mobile/tablet (<1024px): a normal section below "Літературне
+       редагування", cards laid out in the same two-per-row grid as
+       .book-list (collapsing to one column under 640px).
+     - Desktop (≥1024px): switches to the sticky, independently
+       scrollable sidebar column instead.
+     - Transparent wrapper — no visible panel of its own.
+     - The entire card is clickable, not just the title text. */
+  .news-sidebar {
+    margin-top: 56px; /* spacing below "Літературне редагування" on mobile/tablet */
+  }
+
+  @media (max-width: 380px) {
+    .news-sidebar {
+      padding: 0 14px; /* keeps "Новини" heading aligned with the (slightly inset) cards below it */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-sidebar {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 24px;
+      min-width: 0; /* prevents the placeholder images' intrinsic size from
+                       forcing this grid column wider than --news-width */
+    }
+  }
+
+  .news-sidebar .section-title {
+    flex-shrink: 0;
+    /* "Переклади"/"Літературне редагування" get this same 24px gap from
+       .section-header's margin — the news heading isn't wrapped in that
+       element, so it needs the same spacing set directly here */
+    margin-bottom: 24px;
+  }
+
+  /* mobile/tablet default: same two-per-row grid as .book-list */
+  .news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 22px;
+  }
+
+  @media (max-width: 640px) {
+    .news-list { grid-template-columns: repeat(2, minmax(150px, 1fr)); }
+  }
+
+  @media (max-width: 380px) {
+    .news-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* desktop: switch to the scrollable single-column sidebar list */
+  @media (min-width: 1024px) {
+    .news-list {
+      grid-template-columns: none;
+      /* CSS fallback if JS is unavailable — the JS below overrides this
+         with a precise height matched to exactly two real card heights */
+      max-height: calc(100vh - 48px);
+      min-width: 0;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      /* generous room on every side — especially the bottom — so the card's
+         shadow has space to fade all the way to fully transparent before
+         hitting the scroll container's edge, instead of getting cut off */
+      padding: 6px 16px 32px 16px;
+    }
+  }
+
+  .news-list::-webkit-scrollbar { width: 6px; }
+  .news-list::-webkit-scrollbar-track { background: transparent; }
+  .news-list::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--violet) 35%, transparent);
+    border-radius: 10px;
+  }
+
+  /* NB: unlike .book-list, a leftover last news card is deliberately NOT
+     stretched to span the full row. A news card carries an image with a
+     fixed aspect-ratio at a fixed proportion of its width — doubling the
+     card's width would double the image's height too, making that one
+     card look oversized next to its neighbours. Left at normal width,
+     with an empty gap beside it, instead. */
+
+  .news-card {
+    position: relative; /* anchors the full-card link overlay below */
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    /* a lighter shadow than the book cards — the page-wide --shadow token
+       was too heavy for this narrow column */
+    box-shadow: 0 1px 2px rgba(20,20,20,0.05), 0 4px 12px rgba(20,20,20,0.05);
+    /* повільніше згасання — щоб під час прокручування ефект плавно
+       переходив з картки на картку, а не перемикався миттєво */
+    transition: transform 0.28s ease-out, box-shadow 0.28s ease-out;
+    /* lets @container queries below react to this card's own rendered
+       width, which changes depending on the 1/2/3-column grid state */
+    container-type: inline-size;
+    container-name: news-card;
+  }
+
+  .news-card:hover, .news-card.scroll-hover {
+    transform: scale(1.035);
+    box-shadow: 0 2px 4px rgba(20,20,20,0.06), 0 6px 16px rgba(20,20,20,0.08);
+  }
+
+  .news-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* body fills whatever height the card grid gives it, so the date
+     (margin-top: auto, below) always sits pinned to the bottom-left
+     corner regardless of title length or card size */
+  .news-card .news-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px 10px;
+  }
+
+  .news-card .news-title {
+    margin: 0 0 20px 0; /* bottom margin guarantees breathing room before the date, even in a tight row */
+    font-size: 0.95rem;
+    line-height: 1.35;
+    /* a very long unbroken word (e.g. "Передзамовлення") can't wrap at a
+       space, so without this it overflows straight past the card's own
+       padding and butts up against the edge — this is a last-resort
+       fallback only (word-break:break-word was removed on purpose: it's
+       more aggressive and can leave a single stray character on its own
+       line, which is exactly what we don't want) */
+    overflow-wrap: break-word;
+    /* no line-clamp / max-height here — the title wraps to as many
+       lines as it needs, and the card grows to fit automatically */
+  }
+
+  .news-card .news-title a {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 1em;
+    text-decoration: none;
+    transition: color 0.28s ease-out, font-size 0.28s ease-out;
+  }
+
+  .news-card:hover .news-title a, .news-card.scroll-hover .news-title a {
+    color: var(--violet-dark);
+    font-size: 1.05em;
+  }
+
+  /* stretched-link: the title's own <a> gets an invisible overlay spanning
+     the whole card, via the card's position:relative above — one real
+     link, the whole card is clickable */
+  .news-card .news-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .news-card .news-date {
+    margin-top: auto; /* pins the date to the bottom of the card — the real minimum
+                          gap comes from .news-title's margin-bottom above */
+    font-size: 0.78rem;
+    color: var(--muted);
+    -webkit-text-stroke: 0px transparent;
+    transition: -webkit-text-stroke 0.28s ease-out;
+  }
+
+  .news-card:hover .news-date, .news-card.scroll-hover .news-date {
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+
+  /* auto "newest" indicator — shows on whichever card is currently FIRST
+     in the list, so it never needs manual updating. As long as new cards
+     are inserted at the top of .news-list, the dot follows automatically.
+     Lives on the date line instead of the title: the date is always a
+     single short line (no wrapping to worry about), so a plain inline
+     dot with vertical-align:middle centers correctly with zero guesswork —
+     none of the reserved-space / absolute-positioning gymnastics the
+     title version needed. Also gets a slightly larger font-size, so the
+     newest card reads as a small step up in emphasis. */
+  .news-list > .news-card:first-child .news-date {
+    display: flex;
+    align-items: center;
+    color: var(--violet-dark);
+  }
+
+  .news-list > .news-card:first-child .news-date::before {
+    content: "";
+    flex-shrink: 0;
+    width: 9px;
+    aspect-ratio: 1 / 1;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+
   footer {
     text-align: center;
     color: var(--subtitle);
@@ -676,6 +933,11 @@
     </div>
   </header>
 
+  <!-- grid holding the two book sections + the news column -->
+  <div class="content-layout">
+
+  <div class="sections-wrap">
+
     <section>
     <div class="section-header">
       <h2 class="section-title">Переклади</h2>
@@ -694,7 +956,7 @@
         <p class="book-uk"><span class="blur-me"><a href="https://www.goodreads.com/book/show/234804329" target="_blank">Titlele of Thehe Book LongReally Long Hehe, English Nameam Phd</a></span></p>
         <div class="meta"><b>Жанри:</b> Психологія, Ментальне здоров'я</div>
         <div class="progress-row">
-          <div class="progress-track"><div class="progress-fill pulse" style="width: 48%;"></div></div>
+          <div class="progress-track"><div class="progress-fill pulse" style="width: 53%;"></div></div>
           <span class="progress-label">У роботі</span>
         </div>
       </li>
@@ -709,14 +971,15 @@
           <div class="progress-track">
           <div class="progress-fill pulse" style="width: 99.9%;"></div>
           </div>
-          <span class="progress-label">Редактура</span> 
+          <span class="progress-label">Редактура</span>
+        </div>
       </li>
 
       <li>
         <span class="publisher-badge">Beagle</span>
         <p class="book-title is-blurred">Назва книжки, Ім'я Автора</p>
-        <p class="book-uk"><span class="blur-me"><a href="https://www.goodreads.com/book/show/75665850" target="_blank">English Title, English Name</a></p>
-        <div class="meta"><b>Жанри:</b> Психологія, Самодопомога</span></div>
+        <p class="book-uk"><span class="blur-me"><a href="https://www.goodreads.com/book/show/75665850" target="_blank">English Title, English Name</a></span></p>
+        <div class="meta"><b>Жанри:</b> Психологія, Самодопомога</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill full" style="width: 100%;"></div></div>
           <span class="progress-label">Верстка</span>
@@ -751,17 +1014,41 @@
 
       <li>
         <span class="publisher-badge">READBERRY</span>
-        <p class="book-title">Змієві святки,<br>Аліна Ларіонова</span></p>
+        <p class="book-title">Змієві святки,<br>Аліна Ларіонова</p>
         <div class="meta"><b>Жанри:</b> Магічний реалізм</div>
         <div class="progress-row">
           <div class="progress-track"><div class="progress-fill full" style="width: 100%;"></div></div>
-          <span class="progress-label"><a href="https://www.ranok.com.ua/info-zmijevi-sviatki-52497.html" target="_blank">Передпродаж</a></span>
+          <span class="progress-label">Передпродаж</span>
         </div>
       </li>
 
     </ul>
   </section>
 
+  </div><!-- /.sections-wrap -->
+
+  <!-- "Новини" column -->
+  <aside class="news-sidebar">
+    <h2 class="section-title">Новини</h2>
+    <ul class="news-list">
+
+      <!-- ADD NEW NEWS CARDS HERE, above the existing ones — the newest
+           must be FIRST in this list. The violet dot indicator and the
+           top position both follow automatically from being first. -->
+
+       <li class="news-card">
+        <img src="zmiyevi.jpg" alt="Обкладинка">
+        <div class="news-body">
+          <p class="news-title"><a href="https://www.ranok.com.ua/info-zmijevi-sviatki-52497.html" target="_blank">Передпродаж "Змієвих святок" від Readberry</a></p>
+          <p class="news-date">22.09.2026</p>
+        </div>
+      </li>
+
+
+    </ul>
+  </aside>
+
+  </div><!-- /.content-layout -->
 
   <footer>Останнє оновлення: <b>22.09.2026</b></footer>
 
@@ -813,6 +1100,182 @@
       dlBadges.forEach((b) => b.classList.remove('expanded'));
     }
   });
+
+  // Ukrainian typography: a single-letter word (prepositions/conjunctions
+  // like "у", "і", "в", "з", "й", "а", "о", "я"...) should never be left
+  // alone at the end of a line. Swapping the space after it for a
+  // non-breaking space glues it to the next word so they wrap together.
+  // Scoped to news card titles, where this was reported; the same
+  // function can be pointed at any other selector if needed elsewhere.
+  function fixOrphanWords(selector) {
+    const singleLetterWord = /(^|\s)([АаБбВвІіЙйКкОоСсУуЯя])\s+/g;
+    document.querySelectorAll(selector).forEach((el) => {
+      el.textContent = el.textContent.replace(singleLetterWord, '$1$2\u00A0');
+    });
+  }
+  fixOrphanWords('.news-card .news-title a');
+
+  // Sizes the desktop news sidebar so exactly two full cards are visible
+  // at rest — no partially-cut third card. Measures real rendered card
+  // heights (which vary with title length) rather than guessing a fixed
+  // number, and re-measures on resize since card width — and therefore
+  // the image's height via its aspect-ratio — changes with viewport width.
+  function sizeNewsListToTwoCards() {
+    const list = document.querySelector('.news-list');
+    if (!list) return;
+
+    // this layout only applies at the ≥1024px desktop sidebar breakpoint
+    if (window.innerWidth < 1024) {
+      list.style.maxHeight = '';
+      list.style.overflowY = '';
+      return;
+    }
+
+    const cards = list.querySelectorAll('.news-card');
+    if (cards.length === 0) return;
+
+    // 1 or 2 cards already fit entirely — there's nothing to actually
+    // scroll to, so don't make this a scroll container at all. Otherwise
+    // a card's :hover scale (see .news-card:hover) nudges its painted
+    // edge a hair past the container's height and a scrollbar flickers
+    // in on hover, even though there's no second screen of cards behind it.
+    if (cards.length <= 2) {
+      list.style.maxHeight = '';
+      list.style.overflowY = 'visible';
+      return;
+    }
+    list.style.overflowY = 'auto';
+
+    const listStyle = getComputedStyle(list);
+    const paddingTop = parseFloat(listStyle.paddingTop) || 0;
+    const paddingBottom = parseFloat(listStyle.paddingBottom) || 0;
+    const gap = parseFloat(listStyle.rowGap || listStyle.gap) || 0;
+
+    const cardsToMeasure = Math.min(2, cards.length);
+    let height = paddingTop + paddingBottom;
+    for (let i = 0; i < cardsToMeasure; i++) {
+      height += cards[i].getBoundingClientRect().height;
+      if (i > 0) height += gap;
+    }
+
+    // on very short screens, two full cards genuinely might not fit —
+    // fall back to the viewport-based cap rather than overflowing it
+    const viewportCap = window.innerHeight - 48;
+    list.style.maxHeight = Math.ceil(Math.min(height, viewportCap)) + 1 + 'px';
+  }
+
+  window.addEventListener('load', sizeNewsListToTwoCards);
+  window.addEventListener('resize', sizeNewsListToTwoCards);
+
+  // the Manrope web font can finish swapping in shortly *after* 'load',
+  // which slightly changes line-height/text height — re-measure once
+  // fonts are actually settled so the sizing above stays accurate
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(sizeNewsListToTwoCards);
+  }
+
+  // Native :hover only updates on mousemove, never on scroll — so if you
+  // spin the wheel without moving the mouse, the card sliding under the
+  // (stationary) cursor never gets a hover state on its own. This tracks
+  // the last known cursor position and, while scrolling, continuously
+  // (every animation frame — not just on each scroll event, which can
+  // skip cards during fast trackpad/wheel momentum) toggles a
+  // .scroll-hover class (styled identically to :hover above) onto
+  // whichever card the cursor is currently over, so each card gets its
+  // turn in sequence and the effect reads as a smooth pass-through
+  // rather than a card being ignored mid-scroll.
+  (function () {
+    const newsList = document.querySelector('.news-list');
+    if (!newsList) return;
+
+    let lastX = null;
+    let lastY = null;
+    let activeCard = null;
+    let rafId = null;
+    let stopTimer = null;
+
+    function setActive(card) {
+      if (card === activeCard) return;
+      if (activeCard) activeCard.classList.remove('scroll-hover');
+      activeCard = card;
+      if (activeCard) activeCard.classList.add('scroll-hover');
+    }
+
+    function updateFromPoint() {
+      if (lastX === null) return;
+      const el = document.elementFromPoint(lastX, lastY);
+      const card = el ? el.closest('.news-card') : null;
+      setActive(card && newsList.contains(card) ? card : null);
+    }
+
+    function pollTick() {
+      updateFromPoint();
+      rafId = requestAnimationFrame(pollTick);
+    }
+
+    function startPolling() {
+      if (rafId === null) pollTick();
+    }
+
+    function stopPollingSoon() {
+      clearTimeout(stopTimer);
+      // keeps polling briefly after the last scroll tick, so momentum
+      // scrolling (trackpad inertia) is still tracked smoothly
+      stopTimer = setTimeout(() => {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }, 150);
+    }
+
+    newsList.addEventListener('mousemove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      updateFromPoint();
+    });
+
+    newsList.addEventListener('mouseleave', () => {
+      lastX = lastY = null;
+      setActive(null);
+    });
+
+    ['scroll', 'wheel'].forEach((evt) => {
+      newsList.addEventListener(evt, () => {
+        startPolling();
+        stopPollingSoon();
+      }, { passive: true });
+    });
+  })();
+
+  // Progress-label links (e.g. "Передпродаж"): once clicked, switch to a
+  // lighter font-weight, remembered across future visits on this device.
+  // Browsers block :visited from touching font-weight (history-sniffing
+  // protection), so the "visited" state is tracked in localStorage instead.
+  (function () {
+    const STORAGE_KEY = 'clickedProgressLinks';
+    let clicked;
+    try {
+      clicked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    } catch (e) {
+      clicked = [];
+    }
+
+    document.querySelectorAll('.progress-label a').forEach((link) => {
+      if (clicked.includes(link.href)) {
+        link.classList.add('label-visited');
+      }
+      link.addEventListener('click', () => {
+        link.classList.add('label-visited');
+        if (!clicked.includes(link.href)) {
+          clicked.push(link.href);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(clicked));
+          } catch (e) {}
+        }
+      });
+    });
+  })();
 </script>
 
   
